@@ -39,7 +39,7 @@ function webGLStart() {
     initGL(canvas);
 
     skybox = new SkyBox(100,  "test/test");
-    middleobject = new MiddleObject("obj", "buddah/Jade_buddha", null);
+    middleobject = new MiddleObject("obj", "buddah/Jade_buddha", "test.jpg");
     tick();
 }
 

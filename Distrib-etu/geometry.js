@@ -365,7 +365,7 @@ class MiddleObject {
         // console.log("Plane : init buffers ok.");
         //
         
-        //this.textures.front = this.initTexture(this,filename_texture + "_ft.png" );
+        this.textures = this.initTexture(this,filename_texture );
         loadShaders(this);
         //
         // console.log("Plane : shaders loading...");
