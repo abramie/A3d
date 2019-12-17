@@ -40,45 +40,45 @@ class Plane3D {
         //Pour le top il faut retourner la texture pour qu'elle soit bien allignée.
         if(pos == "top"){
             this.texcoords = [
-                0.0, 1.0,
-                0.0, 0.0,
-                1.0, 0.0,
-                1.0, 1.0
+                0.001, 0.999,
+                0.001, 0.001,
+                0.999, 0.001,
+                0.999, 0.999
             ];
         } else if (pos == "front"){
             this.texcoords = [
-                1.0, 0.0,
-                1.0, 1.0,
-                0.0, 1.0,
-                0.0, 0.0
+                0.999, 0.001,
+                0.999, 0.999,
+                0.001, 0.999,
+                0.001, 0.001
             ];
         } else if (pos == "back"){
             this.texcoords = [
-                0.0, 0.0,
-                1.0, 0.0,
-                1.0, 1.0,
-                0.0, 1.0
+                0.001, 0.001,
+                0.999, 0.001,
+                0.999, 0.999,
+                0.001, 0.999
             ];
         } else if (pos == "bottom"){
             this.texcoords = [
-                0.0, 0.0,
-                1.0, 0.0,
-                1.0, 1.0,
-                0.0, 1.0
+                0.001, 0.001,
+                0.999, 0.001,
+                0.999, 0.999,
+                0.001, 0.999
             ];
         } else if (pos == "left"){
             this.texcoords = [
-                0.0, 1.0,
-                0.0, 0.0,
-                1.0, 0.0,
-                1.0, 1.0
+                0.001, 0.999,
+                0.001, 0.001,
+                0.999, 0.001,
+                0.999, 0.999
             ];
         } else if (pos == "right"){
             this.texcoords = [
-                1.0, 1.0,
-                0.0, 1.0,
-                0.0, 0.0,
-                1.0, 0.0
+                0.999, 0.999,
+                0.001, 0.999,
+                0.001, 0.001,
+                0.999, 0.001
             ];
         }
 
@@ -312,9 +312,28 @@ class MiddleObject {
         this.shader=null;
     }
 
+    draw() {
+        //gl.clear(gl.COLOR_BUFFER_BIT);
+        if (this.shader) {
+
+            this.setShadersParams();
+
+            setMatrixUniforms(this);
+
+            // gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
+            // gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            // gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
+            // gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            //
+            // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.iBuffer);
+            // gl.drawElements(gl.TRIANGLES, this.iBuffer.numItems,gl.UNSIGNED_SHORT,0 );
+        }
+    }
+
     initAll(){
 
         OBJ.Mesh(this.name);
+        loadShaders(this);
         //Verifier s'il faut mettre le .obj derrière le nom de l'obj
 
         // console.log("loaded" + this.loaded);
