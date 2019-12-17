@@ -165,6 +165,10 @@ function drawScene() {
         if(shadersOk(skybox)) {
                skybox.draw();
         }
+        
+         /*if(shadersOk(middleobject)) {
+               middleobject.draw();
+        }*/
 }
 
 
