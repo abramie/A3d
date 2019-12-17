@@ -310,6 +310,8 @@ class MiddleObject {
         this.filename_texture = filename_texture;
         this.loaded=-1;
         this.shader=null;
+        
+        this.texture = this.initTexture(this,"test.png" );
     }
 
     initAll(){
@@ -354,12 +356,12 @@ class MiddleObject {
         gl.enableVertexAttribArray(this.shader.vAttrib);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
         gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
-/*
+
         this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
         gl.enableVertexAttribArray(this.shader.tAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-        gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
-*/
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.textureBuffer);
+        gl.vertexAttribPointer(this.shader.tAttrib,this.mesh.textureBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
  /*       this.shader.texIndexAttrib = gl.getAttribLocation(this.shader, "aTexIndex");
         gl.enableVertexAttribArray(this.shader.texIndexAttrib);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.indexBuffer);
@@ -367,10 +369,10 @@ class MiddleObject {
 */
 
         //Si on change l'ordre de ces bouts de code, y a les faces qui se deplacent.
-       /* let texture = gl.getUniformLocation(this.shader, "uTex");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.top);
-        gl.uniform1i(texture, 0);
-        gl.activeTexture(gl.TEXTURE0);*/
+        /*let texture = gl.getUniformLocation(this.shader, "uTex");
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.uniform1i(texture, 6);
+        gl.activeTexture(gl.TEXTURE6);*/
 
 
     }
