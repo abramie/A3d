@@ -11,7 +11,7 @@ var objMatrix = mat4.create();
 // =====================================================
 var shaderProgram = null;
 
-//La skybox est declaré dans geometry.js
+//La classe skybox est créée dans geometry.js
 var skybox;
 var middleobject;
 
@@ -165,6 +165,9 @@ function drawScene() {
         if(shadersOk(skybox)) {
                skybox.draw();
         }
+        if(shadersOk(middleobject)){
+        	middleobject.draw();
+		}
 }
 
 
