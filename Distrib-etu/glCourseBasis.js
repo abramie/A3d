@@ -24,7 +24,23 @@ var middleobject;
 function webGLStart() {
     var canvas = document.getElementById("WebGL-test");
     var mySelect = document.getElementById('texture-select');
-
+    
+    var kd = document.getElementById('kd');
+    var value_kd = document.getElementById('value_kd');
+    value_kd.textContent = kd.value;
+    kd.onchange = function(e){
+      console.log(kd.value);
+      value_kd.textContent = kd.value;
+    };
+    
+    var ks = document.getElementById('ks');
+    var value_ks = document.getElementById('value_ks');
+    value_ks.textContent = ks.value;
+    ks.onchange = function(e){
+      console.log(ks.value);
+      value_ks.textContent = ks.value;
+    };
+    
     //Selecteur de texture
     mySelect.onchange = function (e) {
         var selectedOption = this[this.selectedIndex];
