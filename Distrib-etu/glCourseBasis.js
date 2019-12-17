@@ -30,7 +30,7 @@ function webGLStart() {
         var selectedOption = this[this.selectedIndex];
         var selectedText = selectedOption.value;
         if(selectedText != "")
-            skybox = new SkyBox(100,  selectedText);
+            skybox = new SkyBox(1000,  selectedText);
     }
     mat4.identity(objMatrix);
     canvas.onmousedown = handleMouseDown;
@@ -38,7 +38,7 @@ function webGLStart() {
     document.onmousemove = handleMouseMove;
     initGL(canvas);
 
-    skybox = new SkyBox(100,  "test/test");
+    skybox = new SkyBox(1000,  "test/test");
     middleobject = new MiddleObject("obj", "buddah/Jade_buddha", null);
     tick();
 }
@@ -133,7 +133,7 @@ function compileShaders(Obj3D)
 
 // =====================================================
 function setMatrixUniforms(Obj3D) {
-    mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0, pMatrix);
+    mat4.perspective(110, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
     mat4.identity(mvMatrix);
     mat4.translate(mvMatrix, [0.0, 0.0, 0.0]);
     mat4.multiply(mvMatrix, objMatrix);
