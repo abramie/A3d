@@ -22,7 +22,7 @@ var middleobject;
 
 // =====================================================
 function webGLStart() {
-	var canvas = document.getElementById("WebGL-test");
+    var canvas = document.getElementById("WebGL-test");
     var mySelect = document.getElementById('texture-select');
 
     //Selecteur de texture
@@ -32,34 +32,34 @@ function webGLStart() {
         if(selectedText != "")
             skybox = new SkyBox(100,  selectedText);
     }
-	mat4.identity(objMatrix);
-	canvas.onmousedown = handleMouseDown;
-	document.onmouseup = handleMouseUp;
-	document.onmousemove = handleMouseMove;
-	initGL(canvas);
+    mat4.identity(objMatrix);
+    canvas.onmousedown = handleMouseDown;
+    document.onmouseup = handleMouseUp;
+    document.onmousemove = handleMouseMove;
+    initGL(canvas);
 
     skybox = new SkyBox(100,  "test/test");
     middleobject = new MiddleObject("obj", "buddah/Jade_buddha", null);
-	tick();
+    tick();
 }
 
 // =====================================================
 function initGL(canvas)
 {
-	try {
-		gl = canvas.getContext("experimental-webgl");
-		gl.viewportWidth = canvas.width;
-		gl.viewportHeight = canvas.height;
-		gl.viewport(0, 0, canvas.width, canvas.height);
+    try {
+        gl = canvas.getContext("experimental-webgl");
+        gl.viewportWidth = canvas.width;
+        gl.viewportHeight = canvas.height;
+        gl.viewport(0, 0, canvas.width, canvas.height);
 
-		gl.clearColor(0.7, 0.7, 0.7, 1.0);
-		gl.enable(gl.DEPTH_TEST);
-		gl.enable(gl.CULL_FACE);
-		gl.cullFace(gl.BACK);
-	} catch (e) {}
-	if (!gl) {
-		console.log("Could not initialise WebGL");
-	}
+        gl.clearColor(0.7, 0.7, 0.7, 1.0);
+        gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.CULL_FACE);
+        gl.cullFace(gl.BACK);
+    } catch (e) {}
+    if (!gl) {
+            console.log("Could not initialise WebGL");
+    }
 }
 
 // =====================================================
@@ -133,12 +133,12 @@ function compileShaders(Obj3D)
 
 // =====================================================
 function setMatrixUniforms(Obj3D) {
-		mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0, pMatrix);
-		mat4.identity(mvMatrix);
-		mat4.translate(mvMatrix, [0.0, 0.0, 0.0]);
-		mat4.multiply(mvMatrix, objMatrix);
-		gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
-		gl.uniformMatrix4fv(Obj3D.shader.mvMatrixUniform, false, mvMatrix);
+    mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0, pMatrix);
+    mat4.identity(mvMatrix);
+    mat4.translate(mvMatrix, [0.0, 0.0, 0.0]);
+    mat4.multiply(mvMatrix, objMatrix);
+    gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
+    gl.uniformMatrix4fv(Obj3D.shader.mvMatrixUniform, false, mvMatrix);
 }
 
 // =====================================================
@@ -162,9 +162,9 @@ function shadersOk(object)
 
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
-	 if(shadersOk(skybox)) {
-	 	skybox.draw();
-	 }
+        if(shadersOk(skybox)) {
+               skybox.draw();
+        }
 }
 
 
