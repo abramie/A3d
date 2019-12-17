@@ -304,95 +304,44 @@ class SkyBox{
 
 class MiddleObject {
 
-    constructor(fname, name, filename_texture) {
+    constructor(fname, name_object, filename_texture) {
         this.fname = fname;
-        this.name = name;
+        this.name = name_object;
         this.filename_texture = filename_texture;
         this.loaded=-1;
         this.shader=null;
     }
 
-    draw() {
-        //gl.clear(gl.COLOR_BUFFER_BIT);
-        if (this.shader) {
-
-            this.setShadersParams();
-
-            setMatrixUniforms(this);
-
-            // gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-            // gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
-            // gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-            // gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
-            //
-            // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.iBuffer);
-            // gl.drawElements(gl.TRIANGLES, this.iBuffer.numItems,gl.UNSIGNED_SHORT,0 );
-        }
-    }
-
     initAll(){
+      var xhttp = new XMLHttpRequest();
+      var that = this;
+      xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+              var objStr = xhttp.responseText;
+              let tmpMesh = new OBJ.Mesh(objStr);
+              OBJ.initMeshBuffers(gl,tmpMesh);
+              let txt=""+tmpMesh.vertices.length/3+" vertices ; "+
+                      tmpMesh.indices.length+" indices ; "+
+                      tmpMesh.vertexNormals.length/3+" normals ; "+
+                      tmpMesh.textures.length/2+" texCoords";
+              console.log("Stats : "+txt);
+              //tmpMesh.bbox= skybox;
+              that.mesh=tmpMesh;
+              loadShaders(that);
+              //this.loaded ++;
+              //initMatrices(mesh);
+          }
+      }
+      xhttp.open("GET", this.name, true);
+      xhttp.send();
+  
+      console.log("obj : init buffers ok.");
 
-        OBJ.Mesh(this.name);
-        loadShaders(this);
-        //Verifier s'il faut mettre le .obj derrière le nom de l'obj
+      console.log("obj : shaders loading...");
 
-        // console.log("loaded" + this.loaded);
-        //
-        // //Indices des sommets
-        // this.indices = [];
-        // for(var i = 0; i< 6; i++){
-        //     this.indices = this.indices.concat([i*4,1+i*4,2+i*4,2+i*4,3+i*4,i*4]);
-        // }
-        //
-        // //On créée les buffers pour les shaders avec les valeurs de vertices et texture
-        this.vBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(OBJ.vertices), gl.STATIC_DRAW);
-        this.vBuffer.itemSize = 3;
-        this.vBuffer.numItems = OBJ.vertices.length/3;
-        //
-        this.tBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(OBJ.textures), gl.STATIC_DRAW);
-        this.tBuffer.itemSize = 2;
-        this.tBuffer.numItems = OBJ.textures.length/2;
-        //
-        // //On Bind les indices dans le tableau d'element (il est pas necessaire d'avoir une variable correspondante dans le shader )
-        this.iBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.iBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(OBJ.indices), gl.STATIC_DRAW);
-        this.iBuffer.itemSize = 1;
-        this.iBuffer.numItems = OBJ.indices.length/1;
-        //
-        //
-        // //On lie un sommet à une texture
-        // var texindex = [
-        //     1, 1, 1, 1,
-        //     2, 2, 2, 2,
-        //     3, 3, 3, 3,
-        //     4, 4, 4, 4,
-        //     5, 5, 5, 5,
-        //     6, 6, 6, 6
-        // ];
-        //
-        // this.texindexBuffer = gl.createBuffer();
-        //gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
-        //gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array(texindex), gl.STATIC_DRAW);
-        //this.texindexBuffer.itemSize = 1;
-        // this.texindexBuffer.numItems = texindex.length;
-        //
-        // console.log("Plane : init buffers ok.");
-        //
-        
-        this.textures = this.initTexture(this,this.filename_texture );
-        loadShaders(this);
-        //
-        // console.log("Plane : shaders loading...");
-
-    }
+    }    
     
-    
-       setShadersParams()
+    setShadersParams()
     {
         //console.log("Plane : setting shader parameters...")
 
@@ -403,44 +352,47 @@ class MiddleObject {
 
         this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexPosition");
         gl.enableVertexAttribArray(this.shader.vAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-        gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
+        gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
+/*
         this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
         gl.enableVertexAttribArray(this.shader.tAttrib);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
         gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-       /* this.shader.texIndexAttrib = gl.getAttribLocation(this.shader, "aTexIndex");
+*/
+ /*       this.shader.texIndexAttrib = gl.getAttribLocation(this.shader, "aTexIndex");
         gl.enableVertexAttribArray(this.shader.texIndexAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
-        gl.vertexAttribPointer(this.shader.texIndexAttrib, this.texindexBuffer.itemSize, gl.SHORT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.indexBuffer);
+        gl.vertexAttribPointer(this.shader.texIndexAttrib, this.mesh.indexBuffer.itemSize, gl.SHORT, false, 0, 0);
 */
 
         //Si on change l'ordre de ces bouts de code, y a les faces qui se deplacent.
-        let texture = gl.getUniformLocation(this.shader, "uTex");
+       /* let texture = gl.getUniformLocation(this.shader, "uTex");
         gl.bindTexture(gl.TEXTURE_2D, this.textures.top);
         gl.uniform1i(texture, 0);
-        gl.activeTexture(gl.TEXTURE0);
+        gl.activeTexture(gl.TEXTURE0);*/
 
 
     }
     
     draw(){
-        gl.clear(gl.COLOR_BUFFER_BIT);
+        //gl.clear(gl.COLOR_BUFFER_BIT);
         if(this.shader) {
 
-                this.setShadersParams();
+            this.setShadersParams();
+            gl.useProgram(this.shader);
 
-                setMatrixUniforms(this);
+            setMatrixUniforms(this);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-                gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-                gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.iBuffer);
-                gl.drawElements(gl.TRIANGLES, this.iBuffer.numItems,gl.UNSIGNED_SHORT,0 );
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
+            gl.vertexAttribPointer(this.shader.vAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            /*gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.textureBuffer);
+            gl.vertexAttribPointer(this.shader.tAttrib,this.mesh.textureBuffer.itemSize, gl.FLOAT, false, 0, 0);
+*/
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
+            gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems,gl.UNSIGNED_SHORT,0);
+              
+              //gl.drawArrays(gl.POINTS,0,this.mesh.vertexBuffer.numItems);
         }
     }
     

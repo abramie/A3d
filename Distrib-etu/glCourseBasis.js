@@ -39,7 +39,7 @@ function webGLStart() {
     initGL(canvas);
 
     skybox = new SkyBox(1000,  "test/test");
-    middleobject = new MiddleObject("obj", "buddah/Jade_buddha", null);
+    middleobject = new MiddleObject("obj", "teapot.obj", null);
     tick();
 }
 
@@ -73,6 +73,7 @@ function loadShaderText(Obj3D,ext) {   // lecture asynchrone...
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
+                
 				if(ext=='.vs') { Obj3D.vsTxt = xhttp.responseText; Obj3D.loaded ++; }
 				if(ext=='.fs') { Obj3D.fsTxt = xhttp.responseText; Obj3D.loaded ++; }
 				if(Obj3D.loaded==2) {
@@ -82,6 +83,7 @@ function loadShaderText(Obj3D,ext) {   // lecture asynchrone...
 					console.log("Shader ok : "+Obj3D.fname+".");
 					Obj3D.loaded ++;
 				}
+                
 		}
 	}
 	Obj3D.loaded = 0;
@@ -135,7 +137,7 @@ function compileShaders(Obj3D)
 function setMatrixUniforms(Obj3D) {
     mat4.perspective(110, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
     mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, [0.0, 0.0, 0.0]);
+    mat4.translate(mvMatrix, [0.0, 0.0, -5.0]);
     mat4.multiply(mvMatrix, objMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.mvMatrixUniform, false, mvMatrix);
@@ -147,8 +149,9 @@ function setMatrixUniforms(Obj3D) {
 function shadersOk(object)
 {
 	if(object.loaded == 4) return true;
-
-	if(object.loaded < 0) {
+   
+    
+   	if(object.loaded < 0) {
 		object.loaded = 0;
 		object.initAll();
 		// if(object.shader)
@@ -162,13 +165,15 @@ function shadersOk(object)
 
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
-        if(shadersOk(skybox)) {
-               skybox.draw();
-        }
-        
-         /*if(shadersOk(middleobject)) {
-               middleobject.draw();
-        }*/
+    if(shadersOk(skybox)) {
+           skybox.draw();
+    }
+
+    if(shadersOk(middleobject)) {
+      middleobject.draw();
+    }else{
+      console.log ("loaded : " + middleobject.loaded);
+    }
 }
 
 
