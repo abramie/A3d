@@ -14,7 +14,8 @@ var shaderProgram = null;
 //La classe skybox est créée dans geometry.js
 var skybox;
 var middleobject;
-
+var value_ks = 0;
+var value_kd = 0;
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
@@ -25,20 +26,25 @@ function webGLStart() {
     var canvas = document.getElementById("WebGL-test");
     var mySelect = document.getElementById('texture-select');
     
-    var kd = document.getElementById('kd');
-    var value_kd = document.getElementById('value_kd');
-    value_kd.textContent = kd.value;
-    kd.onchange = function(e){
-      console.log(kd.value);
-      value_kd.textContent = kd.value;
+    
+    //Recuperation des valeurs des ranges pour kd et ks, met � jour la variable
+    //global correspondante
+    var balise_kd = document.getElementById('kd');
+    var balise_value_kd = document.getElementById('value_kd');
+    balise_value_kd.textContent = balise_kd.value;
+    balise_kd.onchange = function(e){
+      console.log(balise_kd.value);
+      balise_value_kd.textContent = balise_kd.value;
+      value_kd = balise_kd.value;
     };
     
-    var ks = document.getElementById('ks');
-    var value_ks = document.getElementById('value_ks');
-    value_ks.textContent = ks.value;
-    ks.onchange = function(e){
-      console.log(ks.value);
-      value_ks.textContent = ks.value;
+    var balise_ks = document.getElementById('ks');
+    var balise_value_ks = document.getElementById('value_ks');
+    balise_value_ks.textContent = balise_ks.value;
+    balise_ks.onchange = function(e){
+      console.log(balise_ks.value);
+      balise_value_ks.textContent = balise_ks.value;
+      value_ks = balise_ks.value;
     };
     
     //Selecteur de texture
