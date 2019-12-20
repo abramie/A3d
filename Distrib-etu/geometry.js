@@ -356,6 +356,11 @@ class MiddleObject {
         gl.enableVertexAttribArray(this.shader.vAttrib);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
         gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
+        
+        this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexNormal");
+        gl.enableVertexAttribArray(this.shader.vAttrib);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
+        gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
 
         this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
         gl.enableVertexAttribArray(this.shader.tAttrib);
@@ -368,11 +373,12 @@ class MiddleObject {
         gl.vertexAttribPointer(this.shader.texIndexAttrib, this.mesh.indexBuffer.itemSize, gl.SHORT, false, 0, 0);
 */
 
-        //Si on change l'ordre de ces bouts de code, y a les faces qui se deplacent.
-        /*let texture = gl.getUniformLocation(this.shader, "uTex");
-        gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        gl.uniform1i(texture, 6);
-        gl.activeTexture(gl.TEXTURE6);*/
+        //Transfert des ks et kd
+        var gl_ks = gl.getUniformLocation(this.shader, "KS");
+        gl.uniform1f(gl_ks, value_ks);
+        
+        var gl_kd = gl.getUniformLocation(this.shader, "KD");
+        gl.uniform1f(gl_kd, value_kd);
 
 
     }
