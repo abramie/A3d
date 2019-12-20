@@ -22,6 +22,10 @@ var value_ks = 0.5;
 var value_kd = 0.8;
 var value_n = 20;
 var value_couleur;
+
+var rouge;
+var vert;
+var bleu;
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
@@ -67,11 +71,10 @@ function webGLStart() {
     };
     
     var balise_couleur = document.getElementById('couleur');
-    value_couleur = balise_n.value;
+    value_couleur = hexToRgb(balise_couleur.value);
     
     balise_couleur.onchange = function(e){
-      console.log(balise_couleur.value);
-      value_couleur = balise_couleur.value;
+      value_couleur = hexToRgb(balise_couleur.value);
     };
     
     //Selecteur de texture

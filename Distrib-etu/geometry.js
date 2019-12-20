@@ -380,7 +380,8 @@ class MiddleObject {
 
  
         this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
-        gl.uniform3fv(this.shader.gl_kd, [value_kd,value_kd,value_kd]);
+        console.log(value_couleur['r']);
+        gl.uniform3fv(this.shader.gl_kd, [value_couleur['r']*value_kd,value_couleur['g']*value_kd,value_couleur['b']*value_kd]);
         
         this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");
         gl.uniform1f(this.shader.gl_n, value_n);
@@ -406,7 +407,8 @@ class MiddleObject {
           gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
           gl.uniform3fv(this.shader.gl_ks, [value_ks,value_ks,value_ks]);
-          gl.uniform3fv(this.shader.gl_kd, [value_kd,value_kd,value_kd]);
+         
+          gl.uniform3fv(this.shader.gl_kd, [value_couleur['r']*value_kd,value_couleur['g']*value_kd,value_couleur['b']*value_kd]);
           gl.uniform1f(this.shader.gl_n, value_n);
           
           gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
