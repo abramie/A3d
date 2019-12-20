@@ -18,11 +18,12 @@ vec3 srcPower =  vec3(1,1,1);
 void main(void)
 {
   vec3 Normal3DN = normalize(normal);
-  vec3 Vi = normalize(srcPos - position);
-  vec3 alpha = reflect(-Vi,Normal3DN); //coq
+  vec3 Vi = normalize(srcPos - position); //Vecteur incidant. 
+
+  vec3 alpha = reflect(-Vi,Normal3DN); 
+  float cosAlpha = pow(dot(Normal3DN,alpha), N) ;
+
   float cosTeta = max(dot(Normal3DN,Vi),0.0);
   
-  gl_FragColor = vec4(srcPower * (KD/pi+ (KS* ((N+2.0)/(2.0*pi)) * pow(dot(Normal3DN,alpha), N)  )) * cosTeta, 1.0);
-
-  //gl_FragColor = vec4((Normal3DN+1.0)/2.0, 1.0);
+  gl_FragColor = vec4(srcPower * (KD/pi+ (KS* ((N+2.0)/(2.0*pi)) * cosAlpha )) * cosTeta, 1.0);
 }

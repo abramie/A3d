@@ -1,9 +1,9 @@
 /*
- @authors : Marine Droit & Jérémy Rousseau
+ @authors : Marine Droit & Jeremy Rousseau
 */
 
 /*
-    Sert uniquement à garder trois coordonnées pour definir des points
+    Sert uniquement à garder trois coordonnees pour definir des points
  */
 class Point {
 	constructor(x,y,z){
@@ -14,7 +14,7 @@ class Point {
 }
 
 // =====================================================
-// PLAN 3D, Support géométrique
+// PLAN 3D, Support geometrique
 // =====================================================
 class Plane3D {
 
@@ -87,7 +87,7 @@ class Plane3D {
 }
 
 // =====================================================
-// Une boite 3D, Support géométrique
+// Une boite 3D, Support geometrique
 // =====================================================
 class SkyBox{
 
@@ -307,6 +307,9 @@ class SkyBox{
     }
 }
 
+/*
+ * Objet charg� depuis un OBJ
+ * **/
 class MiddleObject {
 
     constructor(fname, name_object, filename_texture) {
