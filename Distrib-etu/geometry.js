@@ -356,6 +356,11 @@ class MiddleObject {
         gl.enableVertexAttribArray(this.shader.vAttrib);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
         gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
+        
+        this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexNormal");
+        gl.enableVertexAttribArray(this.shader.vAttrib);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
+        gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
 
         this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
         gl.enableVertexAttribArray(this.shader.tAttrib);
