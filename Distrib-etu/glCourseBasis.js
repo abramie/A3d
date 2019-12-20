@@ -21,11 +21,9 @@ var middleobject;
 var value_ks = 0.5;
 var value_kd = 0.8;
 var value_n = 20;
-var value_couleur;
+var value_couleur_materiau;
+var value_couleur_speculaire;
 
-var rouge;
-var vert;
-var bleu;
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
@@ -34,30 +32,38 @@ var bleu;
 // =====================================================
 function webGLStart() {
     var canvas = document.getElementById("WebGL-test");
-    var mySelect = document.getElementById('texture-select');
-    
     
     //Recuperation des valeurs des ranges pour kd et ks, met à jour la variable
     //global correspondante
     var balise_kd = document.getElementById('kd');
-    value_kd = balise_kd.value;
+    value_kd = parseFloat(balise_kd.value);
     var balise_value_kd = document.getElementById('value_kd');
-    balise_value_kd.textContent = balise_kd.value;
-    balise_kd.onchange = function(e){
-      console.log(balise_kd.value);
-      balise_value_kd.textContent = balise_kd.value;
-      value_kd = balise_kd.value;
-    };
+    balise_value_kd.textContent = value_kd;
     
     var balise_ks = document.getElementById('ks');
-    value_ks = balise_ks.value;
+    value_ks = parseFloat(balise_ks.value);
     var balise_value_ks = document.getElementById('value_ks');
     
+    
+    balise_kd.onchange = function(e){
+      balise_value_kd.textContent = balise_kd.value;
+      value_kd = parseFloat(balise_kd.value);
+      if(value_ks + value_kd > 1){
+        value_ks = 1 - value_kd;
+        balise_ks.value = value_ks;
+        balise_value_ks.textContent = balise_ks.value;
+      }
+    };
+
     balise_value_ks.textContent = balise_ks.value;
     balise_ks.onchange = function(e){
-      console.log(balise_ks.value);
       balise_value_ks.textContent = balise_ks.value;
-      value_ks = balise_ks.value;
+      value_ks = parseFloat(balise_ks.value);
+      if(value_ks + value_kd > 1){
+        value_kd = 1 - value_ks;
+        balise_kd.value = value_kd;
+        balise_value_kd.textContent = balise_kd.value;
+      }
     };
     
     var balise_n = document.getElementById('n');
@@ -65,33 +71,44 @@ function webGLStart() {
     var balise_value_n = document.getElementById('value_n');
     balise_value_n.textContent = balise_n.value;
     balise_n.onchange = function(e){
-      console.log(balise_n.value);
       balise_value_n.textContent = balise_n.value;
       value_n = balise_n.value;
     };
     
-    var balise_couleur = document.getElementById('couleur');
-    value_couleur = hexToRgb(balise_couleur.value);
+    //Color pickers
+    var balise_couleur_materiau = document.getElementById('couleur_materiau');
+    value_couleur_materiau = hexToRgb(balise_couleur_materiau.value);
     
-    balise_couleur.onchange = function(e){
-      value_couleur = hexToRgb(balise_couleur.value);
-      console.log(value_couleur);
+    balise_couleur_materiau.onchange = function(e){
+      value_couleur_materiau = hexToRgb(balise_couleur_materiau.value);
+    };
+    
+    var balise_couleur_lumiere = document.getElementById('couleur_lumiere');
+    value_couleur_lumiere = hexToRgb(balise_couleur_lumiere.value);
+    
+    balise_couleur_lumiere.onchange = function(e){
+      value_couleur_lumiere = hexToRgb(balise_couleur_lumiere.value);
     };
     
     //Selecteur de texture
+    var mySelect = document.getElementById('texture-select');
+    
     mySelect.onchange = function (e) {
-        var selectedOption = this[this.selectedIndex];
+        var selectedOption = mySelect[mySelect.selectedIndex];
         var selectedText = selectedOption.value;
         if(selectedText != "")
             skybox = new SkyBox(1000,  selectedText);
     }
+    
+    
     mat4.identity(objMatrix);
     canvas.onmousedown = handleMouseDown;
     document.onmouseup = handleMouseUp;
     document.onmousemove = handleMouseMove;
     initGL(canvas);
-
-    skybox = new SkyBox(1000,  "stonegods/sgod");
+    
+    //Initialisation des objets
+    skybox = new SkyBox(1000,  mySelect[mySelect.selectedIndex].value);
     middleobject = new MiddleObject("obj", "kokoro.obj", null);
     tick();
 }
@@ -228,8 +245,6 @@ function drawScene() {
 
     if(shadersOk(middleobject)) {
       middleobject.draw();
-    }else{
-      console.log ("loaded : " + middleobject.loaded);
     }
 }
 

@@ -217,8 +217,6 @@ class SkyBox{
         this.texcoords = this.texcoords.concat(this.Right.texcoords);
         this.texcoords = this.texcoords.concat(this.Bottom.texcoords);
         this.texcoords = this.texcoords.concat(this.Top.texcoords);
-        
-        console.log("loaded" + this.loaded);
 
         //Indices des sommets
         this.indices = [];
@@ -263,18 +261,13 @@ class SkyBox{
         this.texindexBuffer.itemSize = 1;
         this.texindexBuffer.numItems = texindex.length;
 
-        console.log("Plane : init buffers ok.");
         
         loadShaders(this);
-
-        console.log("Plane : shaders loading...");
 
     }
 
     setShadersParams()
     {
-        //console.log("Plane : setting shader parameters...")
-
         gl.useProgram(this.shader);
 
         //on defini les matrix. 
@@ -348,17 +341,11 @@ class MiddleObject {
       }
       xhttp.open("GET", this.name, true);
       xhttp.send();
-  
-      console.log("obj : init buffers ok.");
-
-      console.log("obj : shaders loading...");
 
     }    
     
     setShadersParams()
     {
-        //console.log("Plane : setting shader parameters...")
-        //alert("toto debut " + this.shader);
         gl.useProgram(this.shader);
 
         this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexPosition");
@@ -376,12 +363,9 @@ class MiddleObject {
         
         //Transfert des ks et kd
         this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
-        gl.uniform3fv(this.shader.gl_ks, [value_ks,value_ks,value_ks]);
-
+       
  
         this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
-        console.log(value_couleur['r']);
-        gl.uniform3fv(this.shader.gl_kd, [value_couleur['r']*value_kd,value_couleur['g']*value_kd,value_couleur['b']*value_kd]);
         
         this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");
         gl.uniform1f(this.shader.gl_n, value_n);
@@ -391,10 +375,7 @@ class MiddleObject {
     }
     
     draw(){
-        //gl.clear(gl.COLOR_BUFFER_BIT);
         if(this.shader) {
-          //alert("totot");
-          //this.setShadersParams();
           gl.useProgram(this.shader);
 
           setMatrixUniforms(this);
@@ -406,9 +387,12 @@ class MiddleObject {
           gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
           gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-          gl.uniform3fv(this.shader.gl_ks, [value_ks,value_ks,value_ks]);
+           //Envoie la couleur de la tache de speculaire (basé sur la couleur de la lumiere et sur KS ) 
+          gl.uniform3fv(this.shader.gl_ks, [value_couleur_lumiere['r']*value_ks,value_couleur_lumiere['g']*value_ks,value_couleur_lumiere['b']*value_ks]);
          
-          gl.uniform3fv(this.shader.gl_kd, [value_couleur['r']*value_kd,value_couleur['g']*value_kd,value_couleur['b']*value_kd]);
+         //Envoie la couleur de l'objet (basé sur la couleur du materiau, de la lumiere et KD)
+          gl.uniform3fv(this.shader.gl_kd, [value_couleur_lumiere['r']*value_couleur_materiau['r']*value_kd,
+            value_couleur_lumiere['g']*value_couleur_materiau['g']*value_kd,value_couleur_lumiere['b']*value_couleur_materiau['b']*value_kd]);
           gl.uniform1f(this.shader.gl_n, value_n);
           
           gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);

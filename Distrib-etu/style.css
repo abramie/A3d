@@ -1,9 +1,9 @@
 div#bloc1 {
   float: left;
   background: #789;
-  width: 200px;
+  
 }
 div#bloc2 {
-  float: right;
+  
   background: #abc;
 }
