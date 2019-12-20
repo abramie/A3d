@@ -4,5 +4,6 @@ div#bloc1 {
   width: 200px;
 }
 div#bloc2 {
+  float: right;
   background: #abc;
 }
