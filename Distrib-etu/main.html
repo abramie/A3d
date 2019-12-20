@@ -8,13 +8,16 @@
 	<script type="text/javascript" src="callbacks.js"></script>
 	<script type="text/javascript" src="glCourseBasis.js"></script>
 	<script type="text/javascript" src="objloader.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="style.css" media="all"/>
 </head>
 
 
 <body onload="webGLStart();">
+  <div id="bloc1">
 	<canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
+  </div>
 	<br><br>
+  <div id="bloc2">
     <select name="texture" id="texture-select">
         <option value="">--Please choose an option--</option>
         <option value="darkskies/darkskies">darkskies</option>
@@ -42,6 +45,14 @@
              min="0" max="100" value="0.2" step="10">
       <label id="value_n">N</label>
     </div>
+    
+    
+    <div>
+      <input type="color" id="couleur" name="couleur"
+             value="#e66465">
+      <label for="couleur">Couleur</label>
+    </div>
+  </div>
 </body>
 
 

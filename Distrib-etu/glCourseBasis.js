@@ -13,12 +13,15 @@ var objMatrix = mat4.create();
 // =====================================================
 var shaderProgram = null;
 
-//La classe skybox est créée dans geometry.js
+//Les objets a affich�
 var skybox;
 var middleobject;
+
+//Variables html
 var value_ks = 0.5;
 var value_kd = 0.8;
 var value_n = 20;
+var value_couleur;
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
@@ -63,6 +66,14 @@ function webGLStart() {
       value_n = balise_n.value;
     };
     
+    var balise_couleur = document.getElementById('couleur');
+    value_couleur = balise_n.value;
+    
+    balise_couleur.onchange = function(e){
+      console.log(balise_couleur.value);
+      value_couleur = balise_couleur.value;
+    };
+    
     //Selecteur de texture
     mySelect.onchange = function (e) {
         var selectedOption = this[this.selectedIndex];
@@ -77,7 +88,7 @@ function webGLStart() {
     initGL(canvas);
 
     skybox = new SkyBox(1000,  "stonegods/sgod");
-    middleobject = new MiddleObject("obj", "sword.obj", null);
+    middleobject = new MiddleObject("obj", "kokoro.obj", null);
     tick();
 }
 
@@ -173,9 +184,9 @@ function compileShaders(Obj3D)
 
 // =====================================================
 function setMatrixUniforms(Obj3D) {
-    mat4.perspective(110, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
+    mat4.perspective(90, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
     mat4.identity(translateMatrix);
-    mat4.translate(translateMatrix, [0.0, 0.0, -5.0]);
+    mat4.translate(translateMatrix, [0.0, 0.0, -100.0]);
     
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);
@@ -219,7 +230,14 @@ function drawScene() {
 }
 
 
-
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
 
 
 
