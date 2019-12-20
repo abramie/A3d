@@ -1,16 +1,20 @@
 precision mediump float;
 
-varying vec2 texCoords;
-//varying float texIndex;
-
 uniform sampler2D uTex;
-
+varying float KS;
+varying float KD;
+varying vec3 normal;
 
 vec3 red = vec3(1,0,0);
+vec3 blue = vec3(0,0,1);
 
-//On utilise une texture en fonction de l'index de la texture.
+const float pi = 3.1415926;
 void main(void)
 {
-    gl_FragColor = vec4(red,1.0);
+    if(KD < 5.0 ){
+      gl_FragColor = vec4(normal*red,1.0);
+    }else{
+      gl_FragColor = vec4(blue,1.0);
+    }
 
 }

@@ -156,20 +156,48 @@ class SkyBox{
 
     /**Dessine les faces **/
     draw(){
-        gl.clear(gl.COLOR_BUFFER_BIT);
+       
         if(this.shader) {
 
-                this.setShadersParams();
+          //this.setShadersParams();
+          gl.useProgram(this.shader);
+          setMatrixUniforms(this);
 
-                setMatrixUniforms(this);
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
+          gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
+          gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-                gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-                gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
+          gl.vertexAttribPointer(this.shader.texIndexAttrib, this.texindexBuffer.itemSize, gl.SHORT, false, 0, 0);
 
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.iBuffer);
-                gl.drawElements(gl.TRIANGLES, this.iBuffer.numItems,gl.UNSIGNED_SHORT,0 );
+          gl.bindTexture(gl.TEXTURE_2D, this.textures.top);
+          gl.uniform1i(this.shader.frontTexture, 0);
+          gl.activeTexture(gl.TEXTURE0);
+          
+          gl.bindTexture(gl.TEXTURE_2D, this.textures.right);
+          gl.uniform1i(this.shader.backTexture, 1);
+          gl.activeTexture(gl.TEXTURE1);
+          
+          gl.bindTexture(gl.TEXTURE_2D, this.textures.left);
+          gl.uniform1i(this.shader.leftTexture, 2);
+          gl.activeTexture(gl.TEXTURE2);
+          
+          gl.bindTexture(gl.TEXTURE_2D, this.textures.back);
+          gl.uniform1i(this.shader.rightTexture, 3);
+          gl.activeTexture(gl.TEXTURE3);
+          
+          gl.bindTexture(gl.TEXTURE_2D, this.textures.front);
+          gl.uniform1i(this.shader.bottomTexture, 4);
+          gl.activeTexture(gl.TEXTURE4);
+          
+          gl.bindTexture(gl.TEXTURE_2D, this.textures.bottom);
+          gl.uniform1i(this.shader.topTexture, 5);
+          gl.activeTexture(gl.TEXTURE5);
+                
+                
+          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.iBuffer);
+          gl.drawElements(gl.TRIANGLES, this.iBuffer.numItems,gl.UNSIGNED_SHORT,0 );
         }
     }
 
@@ -254,50 +282,32 @@ class SkyBox{
 
         this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexPosition");
         gl.enableVertexAttribArray(this.shader.vAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-        gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
         this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
         gl.enableVertexAttribArray(this.shader.tAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-        gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
         this.shader.texIndexAttrib = gl.getAttribLocation(this.shader, "aTexIndex");
         gl.enableVertexAttribArray(this.shader.texIndexAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
-        gl.vertexAttribPointer(this.shader.texIndexAttrib, this.texindexBuffer.itemSize, gl.SHORT, false, 0, 0);
 
 
         //Si on change l'ordre de ces bouts de code, y a les faces qui se deplacent.
-        let frontTexture = gl.getUniformLocation(this.shader, "uFront");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.top);
-        gl.uniform1i(frontTexture, 0);
-        gl.activeTexture(gl.TEXTURE0);
+        this.shader.frontTexture = gl.getUniformLocation(this.shader, "uFront");
+        
 
-        let backTexture = gl.getUniformLocation(this.shader, "uBack");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.right);
-        gl.uniform1i(backTexture, 1);
-        gl.activeTexture(gl.TEXTURE1);
+        this.shader.backTexture = gl.getUniformLocation(this.shader, "uBack");
+        
 
-        let leftTexture = gl.getUniformLocation(this.shader, "uLeft");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.left);
-        gl.uniform1i(leftTexture, 2);
-        gl.activeTexture(gl.TEXTURE2);
+        this.shader.leftTexture = gl.getUniformLocation(this.shader, "uLeft");
+        
 
-        let rightTexture = gl.getUniformLocation(this.shader, "uRight");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.back);
-        gl.uniform1i(rightTexture, 3);
-        gl.activeTexture(gl.TEXTURE3);
+        this.shader.rightTexture = gl.getUniformLocation(this.shader, "uRight");
+        
 
-        let bottomTexture = gl.getUniformLocation(this.shader, "uBottom");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.front);
-        gl.uniform1i(bottomTexture, 4);
-        gl.activeTexture(gl.TEXTURE4);
+        this.shader.bottomTexture = gl.getUniformLocation(this.shader, "uBottom");
+       
 
-        let topTexture = gl.getUniformLocation(this.shader, "uTop");
-        gl.bindTexture(gl.TEXTURE_2D, this.textures.bottom);
-        gl.uniform1i(topTexture, 5);
-        gl.activeTexture(gl.TEXTURE5);
+        this.shader.topTexture = gl.getUniformLocation(this.shader, "uTop");
+        
 
     }
 }
@@ -346,39 +356,29 @@ class MiddleObject {
     setShadersParams()
     {
         //console.log("Plane : setting shader parameters...")
-
+        //alert("toto debut " + this.shader);
         gl.useProgram(this.shader);
-
-        this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
-        this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
 
         this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexPosition");
         gl.enableVertexAttribArray(this.shader.vAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
-        gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
+
+
+        this.shader.nAttrib = gl.getAttribLocation(this.shader, "aVertexNormal");
+        gl.enableVertexAttribArray(this.shader.nAttrib);
+
+        //OBJ.initMeshBuffers(gl,this.mesh);
+        this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
+        this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
+       
         
-        this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexNormal");
-        gl.enableVertexAttribArray(this.shader.vAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
-        gl.vertexAttribPointer(this.shader.vAttrib, 3, gl.FLOAT, false, 0, 0);
-
-        this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
-        gl.enableVertexAttribArray(this.shader.tAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.textureBuffer);
-        gl.vertexAttribPointer(this.shader.tAttrib,this.mesh.textureBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
- /*       this.shader.texIndexAttrib = gl.getAttribLocation(this.shader, "aTexIndex");
-        gl.enableVertexAttribArray(this.shader.texIndexAttrib);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.indexBuffer);
-        gl.vertexAttribPointer(this.shader.texIndexAttrib, this.mesh.indexBuffer.itemSize, gl.SHORT, false, 0, 0);
-*/
-
         //Transfert des ks et kd
-        var gl_ks = gl.getUniformLocation(this.shader, "KS");
-        gl.uniform1f(gl_ks, value_ks);
-        
-        var gl_kd = gl.getUniformLocation(this.shader, "KD");
-        gl.uniform1f(gl_kd, value_kd);
+        this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
+        gl.uniform1f(this.shader.gl_ks, value_ks);
+
+ 
+        this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
+        gl.uniform1f(this.shader.gl_kd, value_kd);
+
 
 
     }
@@ -386,22 +386,27 @@ class MiddleObject {
     draw(){
         //gl.clear(gl.COLOR_BUFFER_BIT);
         if(this.shader) {
+          //alert("totot");
+          //this.setShadersParams();
+          gl.useProgram(this.shader);
 
-            this.setShadersParams();
-            gl.useProgram(this.shader);
+          setMatrixUniforms(this);
 
-            setMatrixUniforms(this);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
-            gl.vertexAttribPointer(this.shader.vAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
-            /*gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.textureBuffer);
-            gl.vertexAttribPointer(this.shader.tAttrib,this.mesh.textureBuffer.itemSize, gl.FLOAT, false, 0, 0);
-*/
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
-            gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems,gl.UNSIGNED_SHORT,0);
-              
-              //gl.drawArrays(gl.POINTS,0,this.mesh.vertexBuffer.numItems);
-        }
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
+          gl.vertexAttribPointer(this.shader.vAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
+          gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+          gl.uniform1f(this.shader.gl_ks, value_ks);
+          gl.uniform1f(this.shader.gl_kd, value_kd);
+          
+          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
+          gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems,gl.UNSIGNED_SHORT,0);
+        
+          
+      }
     }
     
     initTexture(Obj3D, filename)

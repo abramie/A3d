@@ -60,7 +60,7 @@ function webGLStart() {
     document.onmousemove = handleMouseMove;
     initGL(canvas);
 
-    skybox = new SkyBox(1000,  "test/test");
+    skybox = new SkyBox(1000,  "stonegods/sgod");
     middleobject = new MiddleObject("obj", "sword.obj", null);
     tick();
 }
@@ -101,7 +101,7 @@ function loadShaderText(Obj3D,ext) {   // lecture asynchrone...
 				if(Obj3D.loaded==2) {
 					Obj3D.loaded ++;
 					compileShaders(Obj3D);
-					Obj3D.setShadersParams();
+                    Obj3D.setShadersParams();
 					console.log("Shader ok : "+Obj3D.fname+".");
 					Obj3D.loaded ++;
 				}
@@ -188,7 +188,7 @@ function shadersOk(object)
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
     if(shadersOk(skybox)) {
-           skybox.draw();
+      skybox.draw();
     }
 
     if(shadersOk(middleobject)) {
