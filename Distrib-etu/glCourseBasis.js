@@ -6,6 +6,8 @@
 var gl;
 // =====================================================
 var mvMatrix = mat4.create();
+var rotationMatrix = mat4.create();
+var translateMatrix = mat4.create();
 var pMatrix = mat4.create();
 var objMatrix = mat4.create();
 // =====================================================
@@ -14,8 +16,9 @@ var shaderProgram = null;
 //La classe skybox est créée dans geometry.js
 var skybox;
 var middleobject;
-var value_ks = 0;
-var value_kd = 0;
+var value_ks = 0.5;
+var value_kd = 0.8;
+var value_n = 20;
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
@@ -30,6 +33,7 @@ function webGLStart() {
     //Recuperation des valeurs des ranges pour kd et ks, met � jour la variable
     //global correspondante
     var balise_kd = document.getElementById('kd');
+    value_kd = balise_kd.value;
     var balise_value_kd = document.getElementById('value_kd');
     balise_value_kd.textContent = balise_kd.value;
     balise_kd.onchange = function(e){
@@ -39,12 +43,24 @@ function webGLStart() {
     };
     
     var balise_ks = document.getElementById('ks');
+    value_ks = balise_ks.value;
     var balise_value_ks = document.getElementById('value_ks');
+    
     balise_value_ks.textContent = balise_ks.value;
     balise_ks.onchange = function(e){
       console.log(balise_ks.value);
       balise_value_ks.textContent = balise_ks.value;
       value_ks = balise_ks.value;
+    };
+    
+    var balise_n = document.getElementById('n');
+    value_n = balise_n.value;
+    var balise_value_n = document.getElementById('value_n');
+    balise_value_n.textContent = balise_n.value;
+    balise_n.onchange = function(e){
+      console.log(balise_n.value);
+      balise_value_n.textContent = balise_n.value;
+      value_n = balise_n.value;
     };
     
     //Selecteur de texture
@@ -158,12 +174,16 @@ function compileShaders(Obj3D)
 // =====================================================
 function setMatrixUniforms(Obj3D) {
     mat4.perspective(110, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
-    mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, [0.0, 0.0, -5.0]);
-    mat4.multiply(mvMatrix, objMatrix);
+    mat4.identity(translateMatrix);
+    mat4.translate(translateMatrix, [0.0, 0.0, -5.0]);
+    
+    mat4.identity(rotationMatrix);
+    mat4.multiply(rotationMatrix, objMatrix);
+    
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
-    gl.uniformMatrix4fv(Obj3D.shader.mvMatrixUniform, false, mvMatrix);
-}
+    gl.uniformMatrix4fv(Obj3D.shader.tMatrixUniform, false, translateMatrix);
+    gl.uniformMatrix4fv(Obj3D.shader.rMatrixUniform, false, rotationMatrix);
+} 
 
 // =====================================================
 

@@ -277,8 +277,10 @@ class SkyBox{
 
         gl.useProgram(this.shader);
 
+        //on defini les matrix. 
         this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
-        this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
+        this.shader.tMatrixUniform = gl.getUniformLocation(this.shader, "transMatrix");
+        this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
 
         this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexPosition");
         gl.enableVertexAttribArray(this.shader.vAttrib);
@@ -368,16 +370,20 @@ class MiddleObject {
 
         //OBJ.initMeshBuffers(gl,this.mesh);
         this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
-        this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
+        this.shader.tMatrixUniform = gl.getUniformLocation(this.shader, "transMatrix");
+        this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
        
         
         //Transfert des ks et kd
         this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
-        gl.uniform1f(this.shader.gl_ks, value_ks);
+        gl.uniform3fv(this.shader.gl_ks, [value_ks,value_ks,value_ks]);
 
  
         this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
-        gl.uniform1f(this.shader.gl_kd, value_kd);
+        gl.uniform3fv(this.shader.gl_kd, [value_kd,value_kd,value_kd]);
+        
+        this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");
+        gl.uniform1f(this.shader.gl_n, value_n);
 
 
 
@@ -399,8 +405,9 @@ class MiddleObject {
           gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
           gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-          gl.uniform1f(this.shader.gl_ks, value_ks);
-          gl.uniform1f(this.shader.gl_kd, value_kd);
+          gl.uniform3fv(this.shader.gl_ks, [value_ks,value_ks,value_ks]);
+          gl.uniform3fv(this.shader.gl_kd, [value_kd,value_kd,value_kd]);
+          gl.uniform1f(this.shader.gl_n, value_n);
           
           gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
           gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems,gl.UNSIGNED_SHORT,0);
