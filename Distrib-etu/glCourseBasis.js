@@ -39,7 +39,7 @@ function webGLStart() {
     initGL(canvas);
 
     skybox = new SkyBox(1000,  "test/test");
-    middleobject = new MiddleObject("obj", "teapot.obj", null);
+    middleobject = new MiddleObject("obj", "sword.obj", null);
     tick();
 }
 
