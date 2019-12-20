@@ -21,9 +21,9 @@ void main(void)
   vec3 Vi = normalize(srcPos - position); //Vecteur incidant. 
 
   vec3 alpha = reflect(-Vi,Normal3DN); 
-  float cosAlpha = pow(dot(Normal3DN,alpha), N) ;
+  float cosAlphaPowN = pow(dot(Normal3DN,alpha), N) ;
 
   float cosTeta = max(dot(Normal3DN,Vi),0.0);
   
-  gl_FragColor = vec4(srcPower * (KD/pi+ (KS* ((N+2.0)/(2.0*pi)) * cosAlpha )) * cosTeta, 1.0);
+  gl_FragColor = vec4(srcPower * (KD/pi+ (KS* ((N+2.0)/(2.0*pi)) * cosAlphaPowN )) * cosTeta, 1.0);
 }
