@@ -13,7 +13,7 @@ var objMatrix = mat4.create();
 // =====================================================
 var shaderProgram = null;
 
-//Les objets a affiché
+//Les objets a affichï¿½
 var skybox;
 var middleobject;
 
@@ -33,7 +33,7 @@ var value_couleur_speculaire;
 function webGLStart() {
     var canvas = document.getElementById("WebGL-test");
     
-    //Recuperation des valeurs des ranges pour kd et ks, met à jour la variable
+    //Recuperation des valeurs des ranges pour kd et ks, met ï¿½ jour la variable
     //global correspondante
     var balise_kd = document.getElementById('kd');
     value_kd = parseFloat(balise_kd.value);
@@ -109,7 +109,7 @@ function webGLStart() {
     
     //Initialisation des objets
     skybox = new SkyBox(1000,  mySelect[mySelect.selectedIndex].value);
-    middleobject = new MiddleObject("obj", "kokoro.obj", null);
+    middleobject = new MiddleObject("obj", "kokoro.obj");
     tick();
 }
 
