@@ -53,13 +53,13 @@ class MiddleObject {
         this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
         this.shader.tMatrixUniform = gl.getUniformLocation(this.shader, "transMatrix");
         this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
-        this.shader.arMatrixUniform = gl.getUniformLocation(this.shader, "uantiRotatMatrix");
+        this.shader.arMatrixUniform = gl.getUniformLocation(this.shader, "uantirotatMatrix");
 
 
         //Transfert des ks et kd
         // this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
-        //
-        //
+
+
         // this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
         //
         // this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");

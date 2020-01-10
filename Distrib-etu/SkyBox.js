@@ -10,15 +10,15 @@ class SkyBox{
      */
     constructor(size,filename_texture){
         //Defini les 8 sommets de la boite.
-        this.A = new Point(-1*size,1*size,1*size);
-        this.B = new Point(1*size, 1*size, 1*size);
-        this.C = new Point(1*size,  1*size, -1*size);
-        this.D = new Point(-1*size,  1*size, -1*size);
+        this.A = new Point(-0.5*size,0.5*size,0.5*size);
+        this.B = new Point(0.5*size, 0.5*size, 0.5*size);
+        this.C = new Point(0.5*size,  0.5*size, -0.5*size);
+        this.D = new Point(-0.5*size,  0.5*size, -0.5*size);
 
-        this.E = new Point(-1*size,-1*size,1*size);
-        this.F = new Point(1*size, -1*size, 1*size);
-        this.G = new Point(1*size,  -1*size, -1*size);
-        this.H = new Point(-1*size,  -1*size,-1*size);
+        this.E = new Point(-0.5*size,-0.5*size,0.5*size);
+        this.F = new Point(0.5*size, -0.5*size, 0.5*size);
+        this.G = new Point(0.5*size,  -0.5*size, -0.5*size);
+        this.H = new Point(-0.5*size,  -0.5*size,-0.5*size);
 
         //Créée les 6 faces
         this.Front = new Plane3D(this.G,this.C,this.D,this.H,filename_texture,"front");
