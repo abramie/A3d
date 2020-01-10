@@ -109,7 +109,7 @@ function webGLStart() {
     
     //Initialisation des objets
     skybox = new SkyBox(1000,  mySelect[mySelect.selectedIndex].value);
-    middleobject = new MiddleObject("obj", "kokoro.obj");
+    middleobject = new MiddleObject("objPhong", "box.obj");
     tick();
 }
 
@@ -205,9 +205,9 @@ function compileShaders(Obj3D)
 
 // =====================================================
 function setMatrixUniforms(Obj3D) {
-    mat4.perspective(90, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
+    mat4.perspective(90, gl.viewportWidth / gl.viewportHeight, 0.1, 3000.0, pMatrix);
     mat4.identity(translateMatrix);
-    mat4.translate(translateMatrix, [0.0, 0.0, -100.0]);
+    mat4.translate(translateMatrix, [0.0, 0.0, -700.0]);
     
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);

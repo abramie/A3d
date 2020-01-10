@@ -12,6 +12,3 @@ class Point {
 		this.z = z;
 	}
 }
-
-
-
