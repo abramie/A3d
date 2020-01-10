@@ -7,6 +7,7 @@ var gl;
 // =====================================================
 var mvMatrix = mat4.create();
 var rotationMatrix = mat4.create();
+var antiRotationMatrix = mat4.create();
 var translateMatrix = mat4.create();
 var pMatrix = mat4.create();
 var objMatrix = mat4.create();
@@ -97,7 +98,7 @@ function webGLStart() {
         var selectedOption = mySelect[mySelect.selectedIndex];
         var selectedText = selectedOption.value;
         if(selectedText != "")
-            skybox = new SkyBox(1000,  selectedText);
+            skybox = new SkyBox(2000,  selectedText);
     }
     
     
@@ -108,8 +109,8 @@ function webGLStart() {
     initGL(canvas);
     
     //Initialisation des objets
-    skybox = new SkyBox(1000,  mySelect[mySelect.selectedIndex].value);
-    middleobject = new MiddleObject("objPhong", "box.obj");
+    skybox = new SkyBox(2000,  mySelect[mySelect.selectedIndex].value);
+    middleobject = new MiddleObject("objCT", "WoodBox.obj");
     tick();
 }
 
@@ -205,17 +206,20 @@ function compileShaders(Obj3D)
 
 // =====================================================
 function setMatrixUniforms(Obj3D) {
-    mat4.perspective(90, gl.viewportWidth / gl.viewportHeight, 0.1, 3000.0, pMatrix);
+    mat4.perspective(90, gl.viewportWidth / gl.viewportHeight, 0.1, 2000.0, pMatrix);
     mat4.identity(translateMatrix);
-    mat4.translate(translateMatrix, [0.0, 0.0, -700.0]);
+    mat4.translate(translateMatrix, [0.0, 0.0, -500.0]);
     
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);
+
+    mat4.transpose(rotationMatrix, antiRotationMatrix);
     
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.tMatrixUniform, false, translateMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.rMatrixUniform, false, rotationMatrix);
-} 
+    gl.uniformMatrix4fv(Obj3D.shader.arMatrixUniform, false, antiRotationMatrix);
+}
 
 // =====================================================
 

@@ -53,15 +53,16 @@ class MiddleObject {
         this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
         this.shader.tMatrixUniform = gl.getUniformLocation(this.shader, "transMatrix");
         this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
+        this.shader.arMatrixUniform = gl.getUniformLocation(this.shader, "antirotatMatrix");
 
 
         //Transfert des ks et kd
-        this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
+        // this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
 
 
-        this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
-
-        this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");
+        // this.shader.gl_kd = gl.getUniformLocation(this.shader, "uKD");
+        //
+        // this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");
         gl.uniform1f(this.shader.gl_n, value_n);
 
 
@@ -85,12 +86,12 @@ class MiddleObject {
             gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
             //Envoie la couleur de la tache de speculaire (base sur la couleur de la lumiere et sur KS )
-            gl.uniform3fv(this.shader.gl_ks, [value_couleur_lumiere['r']*value_ks,value_couleur_lumiere['g']*value_ks,value_couleur_lumiere['b']*value_ks]);
-
-            //Envoie la couleur de l'objet (base sur la couleur du materiau, de la lumiere et KD)
-            gl.uniform3fv(this.shader.gl_kd, [value_couleur_lumiere['r']*value_couleur_materiau['r']*value_kd,
-                value_couleur_lumiere['g']*value_couleur_materiau['g']*value_kd,value_couleur_lumiere['b']*value_couleur_materiau['b']*value_kd]);
-            gl.uniform1f(this.shader.gl_n, value_n);
+            // gl.uniform3fv(this.shader.gl_ks, [value_couleur_lumiere['r']*value_ks,value_couleur_lumiere['g']*value_ks,value_couleur_lumiere['b']*value_ks]);
+            //
+            // //Envoie la couleur de l'objet (base sur la couleur du materiau, de la lumiere et KD)
+            // gl.uniform3fv(this.shader.gl_kd, [value_couleur_lumiere['r']*value_couleur_materiau['r']*value_kd,
+            //     value_couleur_lumiere['g']*value_couleur_materiau['g']*value_kd,value_couleur_lumiere['b']*value_couleur_materiau['b']*value_kd]);
+            // gl.uniform1f(this.shader.gl_n, value_n);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
             gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems,gl.UNSIGNED_SHORT,0);
