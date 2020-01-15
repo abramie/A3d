@@ -1,7 +1,5 @@
 precision mediump float;
 
-//varying float texIndex;
-
 uniform sampler2D uFront;
 uniform sampler2D uBack;
 uniform sampler2D uLeft;
@@ -9,7 +7,6 @@ uniform sampler2D uRight;
 uniform sampler2D uBottom;
 uniform sampler2D uTop;
 
-//uniform mat4 rotatMatrix;
 varying vec2 texCoords;
 varying vec3 normal;
 varying vec3 position;
@@ -31,6 +28,4 @@ void main(void)
     vec3 M = reflect(-Vi,Normal3DN);
     vec3 NormalAntiRotate = vec3 (antiRotatMatrix * vec4 (Normal3DN, 1.0));
     gl_FragColor = texture2D(uFront, vec2(texCoords.s, texCoords.t));
-    //gl_FragColor = vec4(1.0,0.0,0.0,1.0);
-
 }
