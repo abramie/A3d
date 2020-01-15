@@ -8,6 +8,7 @@ var gl;
 var mvMatrix = mat4.create();
 var rotationMatrix = mat4.create();
 var translateMatrix = mat4.create();
+var antiRotationMatrix = mat4.create();
 var pMatrix = mat4.create();
 var objMatrix = mat4.create();
 // =====================================================
@@ -39,7 +40,7 @@ function webGLStart() {
     value_kd = parseFloat(balise_kd.value);
     var balise_value_kd = document.getElementById('value_kd');
     balise_value_kd.textContent = value_kd;
-    
+
     var balise_ks = document.getElementById('ks');
     value_ks = parseFloat(balise_ks.value);
     var balise_value_ks = document.getElementById('value_ks');
@@ -109,7 +110,7 @@ function webGLStart() {
     
     //Initialisation des objets
     skybox = new SkyBox(1000,  mySelect[mySelect.selectedIndex].value);
-    middleobject = new MiddleObject("objPhong", "box.obj");
+    middleobject = new MiddleObject("objCT", "box.obj");
     tick();
 }
 
@@ -211,10 +212,13 @@ function setMatrixUniforms(Obj3D) {
     
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);
+
+    mat4.transpose(rotationMatrix, antiRotationMatrix);
     
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.tMatrixUniform, false, translateMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.rMatrixUniform, false, rotationMatrix);
+    gl.uniformMatrix4fv(Obj3D.shader.arMatrixUniform, false, antiRotationMatrix);
 } 
 
 // =====================================================
