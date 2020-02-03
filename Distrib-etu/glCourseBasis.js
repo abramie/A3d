@@ -24,6 +24,7 @@ var value_kd = 0.8;
 var value_n = 20;
 var value_couleur_materiau;
 var value_couleur_speculaire;
+var sizeSkyBox = 2000;
 
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
@@ -98,7 +99,7 @@ function webGLStart() {
         var selectedOption = mySelect[mySelect.selectedIndex];
         var selectedText = selectedOption.value;
         if(selectedText != "")
-            skybox = new SkyBox(2000,  selectedText);
+            skybox = new SkyBox(sizeSkyBox,  selectedText);
     }
     
     
@@ -109,7 +110,7 @@ function webGLStart() {
     initGL(canvas);
     
     //Initialisation des objets
-    skybox = new SkyBox(2000,  mySelect[mySelect.selectedIndex].value);
+    skybox = new SkyBox(sizeSkyBox,  mySelect[mySelect.selectedIndex].value);
     middleobject = new MiddleObject("objCT", "WoodBox.obj");
     tick();
 }

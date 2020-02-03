@@ -159,21 +159,18 @@ class SkyBox{
         //Si on change l'ordre de ces bouts de code, les faces qui se deplacent.
         this.shader.frontTexture = gl.getUniformLocation(this.shader, "uFront");
 
-
         this.shader.backTexture = gl.getUniformLocation(this.shader, "uBack");
-
 
         this.shader.leftTexture = gl.getUniformLocation(this.shader, "uLeft");
 
-
         this.shader.rightTexture = gl.getUniformLocation(this.shader, "uRight");
-
 
         this.shader.bottomTexture = gl.getUniformLocation(this.shader, "uBottom");
 
-
         this.shader.topTexture = gl.getUniformLocation(this.shader, "uTop");
 
+        this.shader.sizeSkyBox = gl.getUniformLocation(this.shader, "sizeSkybox");
+        gl.uniform1f(this.shader.sizeSkyBox, sizeSkyBox);
 
     }
 
