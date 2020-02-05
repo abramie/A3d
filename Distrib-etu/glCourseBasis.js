@@ -25,6 +25,7 @@ var value_n = 20;
 var value_couleur_materiau;
 var value_couleur_speculaire;
 var sizeSkyBox = 2000;
+var textures;
 
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
@@ -207,7 +208,7 @@ function compileShaders(Obj3D)
 
 // =====================================================
 function setMatrixUniforms(Obj3D) {
-    mat4.perspective(90, gl.viewportWidth / gl.viewportHeight, 0.1, 3000.0, pMatrix);
+    mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 3000.0, pMatrix);
     mat4.identity(translateMatrix);
     mat4.translate(translateMatrix, [0.0, 0.0, -700.0]);
     

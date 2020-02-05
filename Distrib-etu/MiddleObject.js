@@ -55,6 +55,18 @@ class MiddleObject {
         this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
         this.shader.arMatrixUniform = gl.getUniformLocation(this.shader, "uantirotatMatrix");
 
+        this.shader.frontTexture = gl.getUniformLocation(this.shader, "uFront");
+
+        this.shader.backTexture = gl.getUniformLocation(this.shader, "uBack");
+
+        this.shader.leftTexture = gl.getUniformLocation(this.shader, "uLeft");
+
+        this.shader.rightTexture = gl.getUniformLocation(this.shader, "uRight");
+
+        this.shader.bottomTexture = gl.getUniformLocation(this.shader, "uBottom");
+
+        this.shader.topTexture = gl.getUniformLocation(this.shader, "uTop");
+
 
         //Transfert des ks et kd
         // this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
@@ -65,7 +77,8 @@ class MiddleObject {
         // this.shader.gl_n = gl.getUniformLocation(this.shader, "uN");
         // gl.uniform1f(this.shader.gl_n, value_n);
 
-
+        this.shader.sizeSkyBox = gl.getUniformLocation(this.shader, "sizeSkybox");
+        gl.uniform1f(this.shader.sizeSkyBox, sizeSkyBox);
 
     }
 
@@ -85,6 +98,30 @@ class MiddleObject {
             gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
             gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
+            gl.bindTexture(gl.TEXTURE_2D, textures.top);
+            gl.uniform1i(this.shader.frontTexture, 0);
+            gl.activeTexture(gl.TEXTURE0);
+
+            gl.bindTexture(gl.TEXTURE_2D, textures.right);
+            gl.uniform1i(this.shader.backTexture, 1);
+            gl.activeTexture(gl.TEXTURE1);
+
+            gl.bindTexture(gl.TEXTURE_2D, textures.left);
+            gl.uniform1i(this.shader.leftTexture, 2);
+            gl.activeTexture(gl.TEXTURE2);
+
+            gl.bindTexture(gl.TEXTURE_2D, textures.back);
+            gl.uniform1i(this.shader.rightTexture, 3);
+            gl.activeTexture(gl.TEXTURE3);
+
+            gl.bindTexture(gl.TEXTURE_2D, textures.front);
+            gl.uniform1i(this.shader.bottomTexture, 4);
+            gl.activeTexture(gl.TEXTURE4);
+
+            gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
+            gl.uniform1i(this.shader.topTexture, 5);
+            gl.activeTexture(gl.TEXTURE5);
+
             //Envoie la couleur de la tache de speculaire (base sur la couleur de la lumiere et sur KS )
             // gl.uniform3fv(this.shader.gl_ks, [value_couleur_lumiere['r']*value_ks,value_couleur_lumiere['g']*value_ks,value_couleur_lumiere['b']*value_ks]);
 
@@ -95,7 +132,6 @@ class MiddleObject {
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.mesh.indexBuffer);
             gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems,gl.UNSIGNED_SHORT,0);
-
 
         }
     }

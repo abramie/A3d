@@ -29,7 +29,7 @@ vec3 srcPower =  vec3(1,1,1);
 
 float intersection(vec3 normalFace, vec3 rayon, vec3 normal)
 {
-    float t = -( dot(normalFace,obsPos) + sizeSkybox) / dot(normal, rayon);
+    float t = -( dot(normalFace,obsPos) + sizeSkybox / 2.0) / dot(normalFace, rayon);
     return t;
 }
 
@@ -44,46 +44,48 @@ void main(void)
 
     vec3 M = reflect(-Vo,Normal3DN);
     vec3 MAntiRotate = vec3 (antiRotatMatrix * vec4 (M, 1.0));
-    //gl_FragColor = texture2D(uFront, vec2(texCoords.s, texCoords.t));
 
 
     float mini = 0.0;
     float t = intersection(Front,M, Normal3DN);
-
+    gl_FragColor = vec4(1.0,0.0,0.0,1.0);
     float tprime = intersection(Back,M, Normal3DN);
-    if(tprime < t){
+
+
+    if(tprime < t && tprime > 0.0){
         mini = 1.0;
         t = tprime;
     }
     tprime = intersection(Left,M, Normal3DN);
-    if(tprime < t){
+
+    if(tprime < t && tprime > 0.0){
         mini = 2.0;
         t = tprime;
     }
 
     tprime = intersection(Right,M, Normal3DN);
-    if(tprime < t){
+
+    if(tprime < t && tprime > 0.0){
         mini = 3.0;
         t = tprime;
     }
 
     tprime = intersection(Bottom,M, Normal3DN);
-    if(tprime < t){
+
+    if(tprime < t && tprime > 0.0){
         mini = 4.0;
         t = tprime;
     }
     tprime = intersection(Top,M, Normal3DN);
-    if(tprime < t){
+
+    if(tprime < t && tprime > 0.0){
         mini = 5.0;
         t = tprime;
     }
 
-    // t <- Le minimum
-    //mini <- la face qui correspond.
 
     vec3 inter = (Vo + t * M);
     vec2 textCoord;
-    //sampler2D texture uFront;
 
     if(mini == 0.0){
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
@@ -93,7 +95,7 @@ void main(void)
         gl_FragColor = texture2D(uBack, textCoord);
     } else if (mini == 2.0 ){
         textCoord = vec2( inter.y/sizeSkybox , inter.z/sizeSkybox);
-        gl_FragColor = texture2D(uLeft, textCoord);
+       gl_FragColor = texture2D(uLeft, textCoord);
     } else if (mini == 3.0) {
         textCoord = vec2( inter.y/sizeSkybox , inter.z/sizeSkybox);
         gl_FragColor = texture2D(uRight, textCoord);
@@ -104,4 +106,6 @@ void main(void)
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
         gl_FragColor = texture2D(uTop, textCoord);
     }
+
+
 }

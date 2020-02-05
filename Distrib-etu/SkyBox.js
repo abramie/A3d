@@ -34,17 +34,18 @@ class SkyBox{
 
 
         //Charge l'image pour chaque texture
-        this.textures = [];
+        textures = [];
 
-        this.textures.front = this.initTexture(this,filename_texture + "_ft.png" );
-        this.textures.back = this.initTexture(this,filename_texture + "_bk.png");
+        textures.front = this.initTexture(this,filename_texture + "_ft.png" );
+        textures.back = this.initTexture(this,filename_texture + "_bk.png");
 
-        this.textures.left = this.initTexture(this,filename_texture + "_lf.png");
-        this.textures.right = this.initTexture(this,filename_texture + "_rt.png");
+        textures.left = this.initTexture(this,filename_texture + "_lf.png");
+        textures.right = this.initTexture(this,filename_texture + "_rt.png");
 
-        this.textures.bottom = this.initTexture(this,filename_texture + "_dn.png");
-        this.textures.top = this.initTexture(this,filename_texture + "_up.png");
+        textures.bottom = this.initTexture(this,filename_texture + "_dn.png");
+        textures.top = this.initTexture(this,filename_texture + "_up.png");
     }
+
     /*
         Initialise les faces du cube
     */
@@ -192,27 +193,27 @@ class SkyBox{
             gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
             gl.vertexAttribPointer(this.shader.texIndexAttrib, this.texindexBuffer.itemSize, gl.SHORT, false, 0, 0);
 
-            gl.bindTexture(gl.TEXTURE_2D, this.textures.top);
+            gl.bindTexture(gl.TEXTURE_2D, textures.top);
             gl.uniform1i(this.shader.frontTexture, 0);
             gl.activeTexture(gl.TEXTURE0);
 
-            gl.bindTexture(gl.TEXTURE_2D, this.textures.right);
+            gl.bindTexture(gl.TEXTURE_2D, textures.right);
             gl.uniform1i(this.shader.backTexture, 1);
             gl.activeTexture(gl.TEXTURE1);
 
-            gl.bindTexture(gl.TEXTURE_2D, this.textures.left);
+            gl.bindTexture(gl.TEXTURE_2D, textures.left);
             gl.uniform1i(this.shader.leftTexture, 2);
             gl.activeTexture(gl.TEXTURE2);
 
-            gl.bindTexture(gl.TEXTURE_2D, this.textures.back);
+            gl.bindTexture(gl.TEXTURE_2D, textures.back);
             gl.uniform1i(this.shader.rightTexture, 3);
             gl.activeTexture(gl.TEXTURE3);
 
-            gl.bindTexture(gl.TEXTURE_2D, this.textures.front);
+            gl.bindTexture(gl.TEXTURE_2D, textures.front);
             gl.uniform1i(this.shader.bottomTexture, 4);
             gl.activeTexture(gl.TEXTURE4);
 
-            gl.bindTexture(gl.TEXTURE_2D, this.textures.bottom);
+            gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
             gl.uniform1i(this.shader.topTexture, 5);
             gl.activeTexture(gl.TEXTURE5);
 

@@ -18,9 +18,12 @@ vec3 colorD = vec3(1,1,0);
 vec3 colorE = vec3(1,0,1);
 vec3 colorF = vec3(0,1,1);
 
+uniform float sizeSkybox;
+
 //On utilise une texture en fonction de l'index de la texture.
 void main(void)
 {
+if(sizeSkybox != 0.0)gl_FragColor = vec4(0.0,1.0,0.0,1.0);
 	if(texIndex >= 0.9 && texIndex <= 1.1){
 	    gl_FragColor = texture2D(uFront, vec2(texCoords.s, texCoords.t));
 	}
@@ -39,5 +42,7 @@ void main(void)
 	else if(texIndex >= 5.9 && texIndex <= 6.1){
 		gl_FragColor = texture2D(uTop, vec2(texCoords.s, texCoords.t));
 	}
+
+
 
 }
