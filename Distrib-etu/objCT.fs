@@ -88,7 +88,8 @@ void main(void)
 
     vec3 inter = (Vo + t * M);
     vec2 textCoord;
-
+//La couleur afficher depend de l'angle d'où on regarde au lieu de la texture
+//ça affiche la couleur du front quand on regarde de face :/
     if(mini == 0.0){
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
         gl_FragColor = texture2D(uFront, textCoord);
