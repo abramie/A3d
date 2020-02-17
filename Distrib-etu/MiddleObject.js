@@ -98,11 +98,11 @@ class MiddleObject {
             gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.top);
-            gl.uniform1i(this.shader.frontTexture, 0);
+            gl.uniform1i(this.shader.topTexture, 0);
             gl.activeTexture(gl.TEXTURE0);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.right);
-            gl.uniform1i(this.shader.backTexture, 1);
+            gl.uniform1i(this.shader.rightTexture, 1);
             gl.activeTexture(gl.TEXTURE1);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.left);
@@ -110,15 +110,15 @@ class MiddleObject {
             gl.activeTexture(gl.TEXTURE2);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.back);
-            gl.uniform1i(this.shader.rightTexture, 3);
+            gl.uniform1i(this.shader.backTexture, 3);
             gl.activeTexture(gl.TEXTURE3);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.front);
-            gl.uniform1i(this.shader.bottomTexture, 4);
+            gl.uniform1i(this.shader.frontTexture, 4);
             gl.activeTexture(gl.TEXTURE4);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
-            gl.uniform1i(this.shader.topTexture, 5);
+            gl.uniform1i(this.shader.bottomTexture, 5);
             gl.activeTexture(gl.TEXTURE5);
 
             //Envoie la couleur de la tache de speculaire (base sur la couleur de la lumiere et sur KS )

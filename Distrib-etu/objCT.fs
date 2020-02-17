@@ -36,8 +36,6 @@ float intersection(vec3 normalFace, vec3 rayon, vec3 normal)
 //On utilise une texture en fonction de l'index de la texture.
 void main(void)
 {
-
-
     vec3 Normal3DN = normalize(normal);
     vec3 Vi = normalize(srcPos - position); //Vecteur incidant.
     vec3 Vo = normalize(obsPos - position);
@@ -46,12 +44,16 @@ void main(void)
     vec3 MAntiRotate = vec3 (antiRotatMatrix * vec4 (M, 1.0));
 
 
+    
+    
     float mini = 0.0;
     float t = intersection(Front,M, Normal3DN);
+    
+    
     gl_FragColor = vec4(1.0,0.0,0.0,1.0);
+    
+    
     float tprime = intersection(Back,M, Normal3DN);
-
-
     if(tprime < t && tprime > 0.0){
         mini = 1.0;
         t = tprime;
@@ -90,21 +92,30 @@ void main(void)
     if(mini == 0.0){
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
         gl_FragColor = texture2D(uFront, textCoord);
-    } else if (mini == 1.0){
+        
+        gl_FragColor = vec4(0.7,0.1,0.1,1.0);
+    } else if (mini == 1.0){//yip
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
         gl_FragColor = texture2D(uBack, textCoord);
-    } else if (mini == 2.0 ){
+        gl_FragColor = vec4(0.0706, 0.4784, 0.0706, 1.0);
+    } else if (mini == 2.0 ){//yip
         textCoord = vec2( inter.y/sizeSkybox , inter.z/sizeSkybox);
        gl_FragColor = texture2D(uLeft, textCoord);
-    } else if (mini == 3.0) {
+       gl_FragColor = vec4(0.0,0.0,0.8,1.0);
+    } else if (mini == 3.0) {//yip
         textCoord = vec2( inter.y/sizeSkybox , inter.z/sizeSkybox);
         gl_FragColor = texture2D(uRight, textCoord);
-    } else if (mini == 4.0){
+        gl_FragColor = vec4(0.3255, 0.0196, 0.3608, 1.0);
+    } else if (mini == 4.0){//yip
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
         gl_FragColor = texture2D(uBottom, textCoord);
+        gl_FragColor = vec4(0.1,0.6,0.1,1.0);
     } else if (mini == 5.0){
         textCoord = vec2( inter.x/sizeSkybox , inter.y/sizeSkybox);
         gl_FragColor = texture2D(uTop, textCoord);
+        gl_FragColor = vec4(0.702, 0.3608, 0.5961, 0.699);
+    }else{
+         gl_FragColor = vec4(1.0,1.0,1.0,1.0);
     }
 
 
