@@ -91,7 +91,6 @@ class MiddleObject {
 
             setMatrixUniforms(this);
 
-
             gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
             gl.vertexAttribPointer(this.shader.vAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 

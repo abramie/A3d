@@ -5,7 +5,7 @@ class SkyBox{
 
     /*
         Initialise la boite
-        @param size : la taille du cube (de -size à +size )
+        @param size : la taille du cube (de -size a� +size )
         @param filename_texture : Le nom de l'image de texture (inclure le chemin, mais sans l'extension )
      */
     constructor(size,filename_texture){
@@ -20,7 +20,7 @@ class SkyBox{
         this.G = new Point(0.5*size,  -0.5*size, -0.5*size);
         this.H = new Point(-0.5*size,  -0.5*size,-0.5*size);
 
-        //Créée les 6 faces
+        //Creee les 6 faces
         this.Front = new Plane3D(this.G,this.C,this.D,this.H,filename_texture,"front");
         this.Back = new Plane3D(this.F,this.E,this.A,this.B,filename_texture,"back");
         this.Left = new Plane3D(this.A,this.E,this.H,this.D,filename_texture,"left");
