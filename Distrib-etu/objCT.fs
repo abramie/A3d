@@ -36,6 +36,8 @@ float intersection(vec3 normalFace, vec3 rayon, vec3 normal)
 //On utilise une texture en fonction de l'index de la texture.
 void main(void)
 {
+    vec3 antiPosition = vec3( antiRotatMatrix * vec4(position, 1.0));
+
     vec3 Normal3DN = normalize(normal);
     vec3 Vi = normalize(srcPos - position); //Vecteur incidant.
     vec3 Vo = normalize(obsPos - position);
@@ -47,38 +49,39 @@ void main(void)
     
     
     float mini = 0.0;
-    float t = intersection(Front,M, Normal3DN);
+    float t = intersection(Front,MAntiRotate, Normal3DN);
     
     
     gl_FragColor = vec4(1.0,0.0,0.0,1.0);
     
     
-    float tprime = intersection(Back,M, Normal3DN);
+    float tprime = intersection(Back,MAntiRotate, Normal3DN);
+
     if(tprime < t && tprime > 0.0){
         mini = 1.0;
         t = tprime;
     }
-    tprime = intersection(Left,M, Normal3DN);
+    tprime = intersection(Left,MAntiRotate, Normal3DN);
 
     if(tprime < t && tprime > 0.0){
         mini = 2.0;
         t = tprime;
     }
 
-    tprime = intersection(Right,M, Normal3DN);
+    tprime = intersection(Right,MAntiRotate, Normal3DN);
 
     if(tprime < t && tprime > 0.0){
         mini = 3.0;
         t = tprime;
     }
 
-    tprime = intersection(Bottom,M, Normal3DN);
+    tprime = intersection(Bottom,MAntiRotate, Normal3DN);
 
     if(tprime < t && tprime > 0.0){
         mini = 4.0;
         t = tprime;
     }
-    tprime = intersection(Top,M, Normal3DN);
+    tprime = intersection(Top,MAntiRotate, Normal3DN);
 
     if(tprime < t && tprime > 0.0){
         mini = 5.0;
@@ -116,7 +119,7 @@ void main(void)
         gl_FragColor = texture2D(uTop, textCoord);
         gl_FragColor = vec4(0.702, 0.3608, 0.5961, 0.699);
     }else{
-         gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
     }
 
 
