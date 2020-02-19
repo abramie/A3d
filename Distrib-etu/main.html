@@ -28,39 +28,52 @@
         <option value="stonegods/sgod">stonegods</option>
         <option value="mp_sincity/sincity">sincity</option>
     </select>
-    <!--<div>
-      <label for="kd">KD</label>
-      <input type="range" id="kd" name="kd"
-             min="0" max="1" value="0.75" step="0.01">
-      <label id="value_kd">KD</label>
-      
-      <input type="color" id="couleur_materiau" name="couleur_materiau"
-             value="#ffff99">
-      <label for="couleur_materiau">Couleur materiau</label>
-    
-    </div>
 
     <div>
-      <label for="ks">KS</label>
-      <input type="range" id="ks" name="ks" 
-             min="0" max="1" value="0.2" step="0.01">
-      <label id="value_ks">KS</label>
-      
-      <input type="color" id="couleur_lumiere" name="couleur_lumiere"
-             value="#00ffff">
-      <label for="couleur_lumiere">Couleur de la lumiere</label>
+      <input type="radio" id="phong" name="choix_shader" value="phong"
+             checked>
+      <label for="phong">Phong</label>
     </div>
     
     <div>
-      <label for="n">N</label>
-      <input type="range" id="n" name="n" 
-             min="0" max="100" value="70" step="10">
-      <label id="value_n">N</label>
-
-      
-    </div>-->
-    
+      <input type="radio" id="miroir" name="choix_shader" value="miroir">
+      <label for="miroir">Miroir</label>
+    </div>
   </div>
+    <div id="phong_param">
+      <div>
+        <label for="kd">KD</label>
+        <input type="range" id="kd" name="kd"
+              min="0" max="1" value="0.75" step="0.01">
+        <label id="value_kd">KD</label>
+        
+        <input type="color" id="couleur_materiau" name="couleur_materiau"
+              value="#ffff99">
+        <label for="couleur_materiau">Couleur materiau</label>
+      
+      </div>
+
+      <div>
+        <label for="ks">KS</label>
+        <input type="range" id="ks" name="ks" 
+              min="0" max="1" value="0.2" step="0.01">
+        <label id="value_ks">KS</label>
+        
+        <input type="color" id="couleur_lumiere" name="couleur_lumiere"
+              value="#00ffff">
+        <label for="couleur_lumiere">Couleur de la lumiere</label>
+      </div>
+      
+      <div>
+        <label for="n">N</label>
+        <input type="range" id="n" name="n" 
+              min="0" max="100" value="70" step="10">
+        <label id="value_n">N</label>
+
+        
+      </div>
+    
+    </div>
 </body>
 
 

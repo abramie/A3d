@@ -18,37 +18,74 @@ var shaderProgram = null;
 var skybox;
 var middleobject;
 
-//Variables html
+// parametres Phong
 var value_ks = 0.5;
 var value_kd = 0.8;
 var value_n = 20;
 var value_couleur_materiau;
 var value_couleur_speculaire;
+////////
+
+
 var sizeSkyBox = 2000;
 var textures;
-
-var test = 0;
-
-// =====================================================
-// FONCTIONS GENERALES, INITIALISATIONS
-// =====================================================
+var shader_actif = "miroir";
+var name_object = "teapot.obj"
 
 
 // =====================================================
-function webGLStart() {
-    var canvas = document.getElementById("WebGL-test");
+// IHM et controles 
+// =====================================================
+
+var mySelect;
+
+function update_IHM(){
+  switch(shader_actif){
+    case "miroir":
+        document.getElementById("phong_param").style.visibility="hidden";
+        break;
+
+    case "phong":
+        document.getElementById("phong_param").style.visibility="visible"
+        break;
+  }
+}
+
+function update_objet(){
+  var shader;
+  switch(shader_actif){
+    case "miroir":
+        shader = "objCT";
+        break;
+
+    case "phong":
+        shader = "objPhong";
+        break;
+  }
+    middleobject = new MiddleObject(shader, name_object);
+}
+
+function initialisation_IHM(){
+  //Identification du shader actif 
+    var shad_radio = document.getElementsByName("choix_shader");
+    for (var i = 0; i < shad_radio.length; i++) {
+      shad_radio[i].addEventListener('change', function() {
+          shader_actif = this.value;
+          console.log(shader_actif)
+          update_IHM();
+          update_objet();
+      });
+    }
+    document.getElementById(shader_actif).checked = true;
+    
     
     //Recuperation des valeurs des ranges pour kd et ks, met � jour la variable
     //global correspondante
-    
-   
-
-   
-    
     try{
       var balise_kd = document.getElementById('kd');
-      value_kd = parseFloat(balise_kd.value);
       var balise_value_kd = document.getElementById('value_kd');
+      value_kd = parseFloat(balise_kd.value);
+      
       balise_value_kd.textContent = value_kd;
       balise_kd.onchange = function(e){
         balise_value_kd.textContent = balise_kd.value;
@@ -77,9 +114,6 @@ function webGLStart() {
           value_kd = 1 - value_ks;
           balise_kd.value = value_kd;
           balise_value_kd.textContent = balise_kd.value;
-          /////////////////////////
-            test = 0;
-          ///////////////////
         }
       };
     }
@@ -126,9 +160,10 @@ function webGLStart() {
       console.log("Erreur balise couleur lumiere")
     }
   
+
     
     //Selecteur de texture
-    var mySelect = document.getElementById('texture-select');
+    mySelect = document.getElementById('texture-select');
     
     mySelect.onchange = function (e) {
         var selectedOption = mySelect[mySelect.selectedIndex];
@@ -136,7 +171,19 @@ function webGLStart() {
         if(selectedText != "")
             skybox = new SkyBox(sizeSkyBox,  selectedText);
     }
+
     
+}
+
+// =====================================================
+// FONCTIONS GENERALES, INITIALISATIONS
+// =====================================================
+
+
+// =====================================================
+function webGLStart() {
+    var canvas = document.getElementById("WebGL-test");
+
     
     mat4.identity(objMatrix);
     canvas.onmousedown = handleMouseDown;
@@ -145,8 +192,11 @@ function webGLStart() {
     initGL(canvas);
     
     //Initialisation des objets
+    initialisation_IHM();
+
     skybox = new SkyBox(sizeSkyBox,  mySelect[mySelect.selectedIndex].value);
-    middleobject = new MiddleObject("objCT", "teapot.obj");
+    update_objet();
+    update_IHM();
     tick();
 }
 
@@ -252,14 +302,6 @@ function setMatrixUniforms(Obj3D) {
     mat4.identity(antiRotationMatrix);
     antiRotationMatrix = mat4.inverse(rotationMatrix, antiRotationMatrix);
 
-    if (test == 0){
-        console.log("antirotate : " + antiRotationMatrix);
-        console.log("rotate : " + rotationMatrix);
-        // let res = mat4.create();
-        // console.log('A x B : ' + mat4.multiply(rotationMatrix, antiRotationMatrix, res));
-        test++;
-    }
-
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.tMatrixUniform, false, translateMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.rMatrixUniform, false, rotationMatrix);
@@ -277,8 +319,6 @@ function shadersOk(object)
    	if(object.loaded < 0) {
 		object.loaded = 0;
 		object.initAll();
-		// if(object.shader)
-		// 	object.setShadersParams();
 	}
 
 	return false;
