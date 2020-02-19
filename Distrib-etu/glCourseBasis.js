@@ -27,6 +27,8 @@ var value_couleur_speculaire;
 var sizeSkyBox = 2000;
 var textures;
 
+var test = 0;
+
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
@@ -66,6 +68,9 @@ function webGLStart() {
         value_kd = 1 - value_ks;
         balise_kd.value = value_kd;
         balise_value_kd.textContent = balise_kd.value;
+        /////////////////////////
+          test = 0;
+        ///////////////////
       }
     };
     
@@ -215,7 +220,16 @@ function setMatrixUniforms(Obj3D) {
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);
 
-    mat4.transpose(rotationMatrix, antiRotationMatrix);
+    mat4.identity(antiRotationMatrix);
+    antiRotationMatrix = mat4.inverse(rotationMatrix, antiRotationMatrix);
+
+    if (test == 0){
+        console.log("antirotate : " + antiRotationMatrix);
+        console.log("rotate : " + rotationMatrix);
+        // let res = mat4.create();
+        // console.log('A x B : ' + mat4.multiply(rotationMatrix, antiRotationMatrix, res));
+        test++;
+    }
 
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.tMatrixUniform, false, translateMatrix);
