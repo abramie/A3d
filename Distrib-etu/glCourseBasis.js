@@ -40,63 +40,92 @@ function webGLStart() {
     
     //Recuperation des valeurs des ranges pour kd et ks, met � jour la variable
     //global correspondante
-    var balise_kd = document.getElementById('kd');
-    value_kd = parseFloat(balise_kd.value);
-    var balise_value_kd = document.getElementById('value_kd');
-    balise_value_kd.textContent = value_kd;
+    
+   
 
-    var balise_ks = document.getElementById('ks');
-    value_ks = parseFloat(balise_ks.value);
-    var balise_value_ks = document.getElementById('value_ks');
+   
     
-    
-    balise_kd.onchange = function(e){
-      balise_value_kd.textContent = balise_kd.value;
+    try{
+      var balise_kd = document.getElementById('kd');
       value_kd = parseFloat(balise_kd.value);
-      if(value_ks + value_kd > 1){
-        value_ks = 1 - value_kd;
-        balise_ks.value = value_ks;
-        balise_value_ks.textContent = balise_ks.value;
-      }
-    };
-
-    balise_value_ks.textContent = balise_ks.value;
-    balise_ks.onchange = function(e){
-      balise_value_ks.textContent = balise_ks.value;
-      value_ks = parseFloat(balise_ks.value);
-      if(value_ks + value_kd > 1){
-        value_kd = 1 - value_ks;
-        balise_kd.value = value_kd;
+      var balise_value_kd = document.getElementById('value_kd');
+      balise_value_kd.textContent = value_kd;
+      balise_kd.onchange = function(e){
         balise_value_kd.textContent = balise_kd.value;
-        /////////////////////////
-          test = 0;
-        ///////////////////
-      }
-    };
+        value_kd = parseFloat(balise_kd.value);
+        if(value_ks + value_kd > 1){
+          value_ks = 1 - value_kd;
+          balise_ks.value = value_ks;
+          balise_value_ks.textContent = balise_ks.value;
+        }
+      };
+      
+    }
+    catch(error){
+      console.log("erreur balise kd");
+    }
     
-    var balise_n = document.getElementById('n');
-    value_n = balise_n.value;
-    var balise_value_n = document.getElementById('value_n');
-    balise_value_n.textContent = balise_n.value;
-    balise_n.onchange = function(e){
-      balise_value_n.textContent = balise_n.value;
+    try{
+      var balise_ks = document.getElementById('ks');
+      value_ks = parseFloat(balise_ks.value);
+      var balise_value_ks = document.getElementById('value_ks');
+      balise_value_ks.textContent = balise_ks.value;
+      balise_ks.onchange = function(e){
+        balise_value_ks.textContent = balise_ks.value;
+        value_ks = parseFloat(balise_ks.value);
+        if(value_ks + value_kd > 1){
+          value_kd = 1 - value_ks;
+          balise_kd.value = value_kd;
+          balise_value_kd.textContent = balise_kd.value;
+          /////////////////////////
+            test = 0;
+          ///////////////////
+        }
+      };
+    }
+    catch(error){
+      console.log("erreur balise ks");
+    }
+   
+    
+    try{
+      var balise_n = document.getElementById('n');
       value_n = balise_n.value;
-    };
+      var balise_value_n = document.getElementById('value_n');
+      balise_value_n.textContent = balise_n.value;
+      balise_n.onchange = function(e){
+        balise_value_n.textContent = balise_n.value;
+        value_n = balise_n.value;
+      };
+    }
+    catch(error){
+      console.log("erreur balise N");
+    }
+   
     
     //Color pickers
-    var balise_couleur_materiau = document.getElementById('couleur_materiau');
-    value_couleur_materiau = hexToRgb(balise_couleur_materiau.value);
-    
-    balise_couleur_materiau.onchange = function(e){
+    try{
+      var balise_couleur_materiau = document.getElementById('couleur_materiau');
       value_couleur_materiau = hexToRgb(balise_couleur_materiau.value);
-    };
-    
-    var balise_couleur_lumiere = document.getElementById('couleur_lumiere');
-    value_couleur_lumiere = hexToRgb(balise_couleur_lumiere.value);
-    
-    balise_couleur_lumiere.onchange = function(e){
+      
+      balise_couleur_materiau.onchange = function(e){
+        value_couleur_materiau = hexToRgb(balise_couleur_materiau.value);
+      };
+    }catch(error){
+      console.log("Erreur balise couleur materiau")
+    }
+   
+    try{
+      var balise_couleur_lumiere = document.getElementById('couleur_lumiere');
       value_couleur_lumiere = hexToRgb(balise_couleur_lumiere.value);
-    };
+      
+      balise_couleur_lumiere.onchange = function(e){
+        value_couleur_lumiere = hexToRgb(balise_couleur_lumiere.value);
+      };
+    }catch(error){
+      console.log("Erreur balise couleur lumiere")
+    }
+  
     
     //Selecteur de texture
     var mySelect = document.getElementById('texture-select');
@@ -117,7 +146,7 @@ function webGLStart() {
     
     //Initialisation des objets
     skybox = new SkyBox(sizeSkyBox,  mySelect[mySelect.selectedIndex].value);
-    middleobject = new MiddleObject("objCT", "WoodBox.obj");
+    middleobject = new MiddleObject("objCT", "teapot.obj");
     tick();
 }
 
@@ -215,7 +244,7 @@ function compileShaders(Obj3D)
 function setMatrixUniforms(Obj3D) {
     mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 3000.0, pMatrix);
     mat4.identity(translateMatrix);
-    mat4.translate(translateMatrix, [0.0, 0.0, -700.0]);
+    mat4.translate(translateMatrix, [0.0, 0.0, -10.0]);
     
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);

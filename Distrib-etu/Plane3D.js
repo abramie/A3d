@@ -22,7 +22,7 @@ class Plane3D {
         //Ici remplacer les coord de texture par le morceau de la texture
         this.texcoords = [];
 
-        //Pour le top il faut retourner la texture pour qu'elle soit bien allignée.
+        //Pour le top il faut retourner la texture pour qu'elle soit bien alignée.
         if(pos == "top"){
             this.texcoords = [
                 0.001, 0.999,
