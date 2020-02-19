@@ -5,7 +5,7 @@ class SkyBox{
 
     /*
         Initialise la boite
-        @param size : la taille du cube (de -size a  +size )
+        @param size : la taille du cube (de -size aï¿½ +size )
         @param filename_texture : Le nom de l'image de texture (inclure le chemin, mais sans l'extension )
      */
     constructor(size,filename_texture){
