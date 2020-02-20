@@ -1,9 +1,19 @@
-div#bloc1 {
+div#bloc1, canvas {
   float: left;
   background: #789;
-  
+  height: 100%; 
+  width: 80%;
+}
+
+canvas {
+  height: 100%; 
+  width: 100%;
 }
 div#bloc2 {
   
   background: #abc;
+}
+
+div#phong_param {
+  background: rgb(99, 228, 131)
 }

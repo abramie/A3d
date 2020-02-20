@@ -172,6 +172,17 @@ function initialisation_IHM(){
             skybox = new SkyBox(sizeSkyBox,  selectedText);
     }
 
+     //Selecteur de texture
+     mySelectOBJ = document.getElementById('objet-select');
+    
+     mySelectOBJ.onchange = function (e) {
+         var selectedOption = mySelectOBJ[mySelectOBJ.selectedIndex];
+         var selectedText = selectedOption.value;
+         if(selectedText != "")
+            name_object = selectedText;
+            update_objet();
+     }
+
     
 }
 
@@ -205,8 +216,9 @@ function initGL(canvas)
 {
     try {
         gl = canvas.getContext("experimental-webgl");
-        gl.viewportWidth = canvas.width;
-        gl.viewportHeight = canvas.height;
+        gl.viewportWidth = canvas.clientWidth;
+        console.log(canvas.clientWidth)
+        gl.viewportHeight = canvas.clientHeight;
         gl.viewport(0, 0, canvas.width, canvas.height);
 
         gl.clearColor(0.7, 0.7, 0.7, 1.0);
@@ -236,7 +248,7 @@ function loadShaderText(Obj3D,ext) {   // lecture asynchrone...
 				if(Obj3D.loaded==2) {
 					Obj3D.loaded ++;
 					compileShaders(Obj3D);
-                    Obj3D.setShadersParams();
+          Obj3D.setShadersParams();
 					console.log("Shader ok : "+Obj3D.fname+".");
 					Obj3D.loaded ++;
 				}
@@ -327,7 +339,7 @@ function shadersOk(object)
 // =====================================================
 
 function drawScene() {
-	gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT);
     if(shadersOk(skybox)) {
       skybox.draw();
     }
