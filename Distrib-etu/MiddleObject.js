@@ -1,4 +1,8 @@
 /*
+ @authors : Marine Droit & Jérémy Rousseau
+*/
+
+/*
  * Objet charge depuis un OBJ
  */
 class MiddleObject {
