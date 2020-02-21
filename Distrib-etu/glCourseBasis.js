@@ -14,7 +14,7 @@ var objMatrix = mat4.create();
 // =====================================================
 var shaderProgram = null;
 
-//Les objets a affich�
+//Les objets a afficher
 var skybox;
 var middleobject;
 
@@ -39,6 +39,9 @@ var name_object = "teapot.obj"
 
 var mySelect;
 
+/**
+ * Cache ou revele les parametres en fonction du shader choisi
+ */
 function update_IHM(){
   switch(shader_actif){
     case "miroir":
@@ -51,6 +54,9 @@ function update_IHM(){
   }
 }
 
+/**
+ * Rappel le constructeur de MiddleObject et redefini le shader actif
+ */
 function update_objet(){
   var shader;
   switch(shader_actif){
@@ -63,6 +69,26 @@ function update_objet(){
         break;
   }
     middleobject = new MiddleObject(shader, name_object);
+}
+
+/**
+ * Fonction de redimensionnement du canvas
+ * @param {gl.canvas } canvas 
+ * @author https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
+ */
+function resize(canvas) {
+  // Lookup the size the browser is displaying the canvas.
+  var displayWidth  = canvas.clientWidth;
+  var displayHeight = canvas.clientHeight;
+ 
+  // Check if the canvas is not the same size.
+  if (canvas.width  != displayWidth ||
+      canvas.height != displayHeight) {
+ 
+    // Make the canvas the same size
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
 }
 
 function initialisation_IHM(){
@@ -172,6 +198,17 @@ function initialisation_IHM(){
             skybox = new SkyBox(sizeSkyBox,  selectedText);
     }
 
+     //Selecteur de texture
+     mySelectOBJ = document.getElementById('objet-select');
+    
+     mySelectOBJ.onchange = function (e) {
+         var selectedOption = mySelectOBJ[mySelectOBJ.selectedIndex];
+         var selectedText = selectedOption.value;
+         if(selectedText != "")
+            name_object = selectedText;
+            update_objet();
+     }
+
     
 }
 
@@ -205,8 +242,8 @@ function initGL(canvas)
 {
     try {
         gl = canvas.getContext("experimental-webgl");
-        gl.viewportWidth = canvas.width;
-        gl.viewportHeight = canvas.height;
+        gl.viewportWidth = canvas.clientWidth;
+        gl.viewportHeight = canvas.clientHeight;
         gl.viewport(0, 0, canvas.width, canvas.height);
 
         gl.clearColor(0.7, 0.7, 0.7, 1.0);
@@ -236,7 +273,7 @@ function loadShaderText(Obj3D,ext) {   // lecture asynchrone...
 				if(Obj3D.loaded==2) {
 					Obj3D.loaded ++;
 					compileShaders(Obj3D);
-                    Obj3D.setShadersParams();
+          Obj3D.setShadersParams();
 					console.log("Shader ok : "+Obj3D.fname+".");
 					Obj3D.loaded ++;
 				}
@@ -299,6 +336,7 @@ function setMatrixUniforms(Obj3D) {
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);
 
+    //Matrix d'anti rotation pour retourner dans le bon referentiel
     mat4.identity(antiRotationMatrix);
     antiRotationMatrix = mat4.inverse(rotationMatrix, antiRotationMatrix);
 
@@ -314,12 +352,10 @@ function setMatrixUniforms(Obj3D) {
 function shadersOk(object)
 {
 	if(object.loaded == 4) return true;
-   
-    
    	if(object.loaded < 0) {
-		object.loaded = 0;
-		object.initAll();
-	}
+      object.loaded = 0;
+      object.initAll();
+    }
 
 	return false;
 }
@@ -327,7 +363,11 @@ function shadersOk(object)
 // =====================================================
 
 function drawScene() {
-	gl.clear(gl.COLOR_BUFFER_BIT);
+    //Redifini la taille du canvas en fonction de la fenetre
+    resize(gl.canvas);
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
     if(shadersOk(skybox)) {
       skybox.draw();
     }
@@ -338,6 +378,10 @@ function drawScene() {
 }
 
 
+/**
+ * Fonction pour convertir une couleur Hexa en RGB
+ * webGL fonctionne avec du RGB mais le selecteur de couleur renvoie de l'hexa
+ */
 function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
