@@ -332,9 +332,9 @@ function drawScene() {
       skybox.draw();
     }
 
-    if(shadersOk(middleobject)) {
-      middleobject.draw();
-    }
+    // if(shadersOk(middleobject)) {
+    //   middleobject.draw();
+    // }
 }
 
 

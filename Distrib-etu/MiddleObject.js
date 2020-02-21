@@ -106,28 +106,28 @@ class MiddleObject {
 
             switch(shader_actif){
                 case "miroir":
-                    gl.bindTexture(gl.TEXTURE_2D, textures.top);
-                    gl.uniform1i(this.shader.frontTexture, 0);
+                    gl.bindTexture(gl.TEXTURE_2D, textures.front);
+                    gl.uniform1i(this.shader.frontTexture, 5);
                     gl.activeTexture(gl.TEXTURE0);
 
-                    gl.bindTexture(gl.TEXTURE_2D, textures.right);
-                    gl.uniform1i(this.shader.backTexture, 1);
+                    gl.bindTexture(gl.TEXTURE_2D, textures.back);
+                    gl.uniform1i(this.shader.backTexture, 0);
                     gl.activeTexture(gl.TEXTURE1);
 
                     gl.bindTexture(gl.TEXTURE_2D, textures.left);
-                    gl.uniform1i(this.shader.leftTexture, 2);
+                    gl.uniform1i(this.shader.leftTexture, 1);
                     gl.activeTexture(gl.TEXTURE2);
 
-                    gl.bindTexture(gl.TEXTURE_2D, textures.back);
-                    gl.uniform1i(this.shader.rightTexture, 3);
+                    gl.bindTexture(gl.TEXTURE_2D, textures.right);
+                    gl.uniform1i(this.shader.rightTexture, 2);
                     gl.activeTexture(gl.TEXTURE3);
 
-                    gl.bindTexture(gl.TEXTURE_2D, textures.front);
-                    gl.uniform1i(this.shader.bottomTexture, 4);
+                    gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
+                    gl.uniform1i(this.shader.bottomTexture, 3);
                     gl.activeTexture(gl.TEXTURE4);
 
-                    gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
-                    gl.uniform1i(this.shader.topTexture, 5);
+                    gl.bindTexture(gl.TEXTURE_2D, textures.top);
+                    gl.uniform1i(this.shader.topTexture, 4);
                     gl.activeTexture(gl.TEXTURE5);
                 break;
 

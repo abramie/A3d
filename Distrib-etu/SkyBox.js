@@ -1,6 +1,9 @@
 // =====================================================
 // Une boite 3D, Support geometrique
 // =====================================================
+
+var test = 0;
+var shader = null;
 class SkyBox{
 
     /*
@@ -36,14 +39,14 @@ class SkyBox{
         //Charge l'image pour chaque texture
         textures = [];
 
-        textures.front = this.initTexture(this,filename_texture + "_ft.png" );
-        textures.back = this.initTexture(this,filename_texture + "_bk.png");
+        textures.front = this.initTexture(this,filename_texture + "_ft.png", "ft" );
+        textures.back = this.initTexture(this,filename_texture + "_bk.png", "bk");
 
-        textures.left = this.initTexture(this,filename_texture + "_lf.png");
-        textures.right = this.initTexture(this,filename_texture + "_rt.png");
+        textures.left = this.initTexture(this,filename_texture + "_lf.png", "lf");
+        textures.right = this.initTexture(this,filename_texture + "_rt.png", "rt");
 
-        textures.bottom = this.initTexture(this,filename_texture + "_dn.png");
-        textures.top = this.initTexture(this,filename_texture + "_up.png");
+        textures.bottom = this.initTexture(this,filename_texture + "_dn.png", "dn");
+        textures.top = this.initTexture(this,filename_texture + "_up.png", "up");
     }
 
     /*
@@ -116,19 +119,49 @@ class SkyBox{
     /*
         Initialisation des textures (Chargement d'une image)
      */
-    initTexture(Obj3D, filename)
+    initTexture(Obj3D, filename, face)
     {
+        shader = this.shader;
+        console.log()
         var texture = gl.createTexture();
         texture.image = new Image();
         texture.image.src = filename;
 
-        texture.image.onload = function () {
+        texture.image.onload = function (t) {
 
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+            // switch (face){
+            //     case "ft" :
+            //         gl.uniform1i(shader.frontTexture, 0);
+            //         gl.activeTexture(gl.TEXTURE0);
+            //         break;
+            //     case "bk" :
+            //         gl.uniform1i(shader.backTexture, 1);
+            //         gl.activeTexture(gl.TEXTURE1);
+            //         break;
+            //     case "lf" :
+            //         gl.uniform1i(shader.leftTexture, 2);
+            //         gl.activeTexture(gl.TEXTURE2);
+            //         break;
+            //     case "rt" :
+            //         gl.uniform1i(shader.rightTexture, 3);
+            //         gl.activeTexture(gl.TEXTURE3);
+            //         break;
+            //     case "dn" :
+            //         gl.uniform1i(shader.bottomTexture, 4);
+            //         gl.activeTexture(gl.TEXTURE4);
+            //         break;
+            //     case "up" :
+            //         gl.uniform1i(shader.topTexture, 5);
+            //         gl.activeTexture(gl.TEXTURE5);
+            //         break;
+            //     default : break;
+            // }
 
         }
         return texture;
@@ -193,28 +226,33 @@ class SkyBox{
             gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
             gl.vertexAttribPointer(this.shader.texIndexAttrib, this.texindexBuffer.itemSize, gl.SHORT, false, 0, 0);
 
-            gl.bindTexture(gl.TEXTURE_2D, textures.top);
-            gl.uniform1i(this.shader.frontTexture, 0);
+            // if(test == 0){
+            //     console.log(this.shader.frontTexture)
+            //     test++;
+            // }
+
+            gl.bindTexture(gl.TEXTURE_2D, textures.front);
+            gl.uniform1i(this.shader.frontTexture, 5);
             gl.activeTexture(gl.TEXTURE0);
 
-            gl.bindTexture(gl.TEXTURE_2D, textures.right);
-            gl.uniform1i(this.shader.backTexture, 1);
+            gl.bindTexture(gl.TEXTURE_2D, textures.back);
+            gl.uniform1i(this.shader.backTexture, 0);
             gl.activeTexture(gl.TEXTURE1);
 
             gl.bindTexture(gl.TEXTURE_2D, textures.left);
-            gl.uniform1i(this.shader.leftTexture, 2);
+            gl.uniform1i(this.shader.leftTexture, 1);
             gl.activeTexture(gl.TEXTURE2);
 
-            gl.bindTexture(gl.TEXTURE_2D, textures.back);
-            gl.uniform1i(this.shader.rightTexture, 3);
+            gl.bindTexture(gl.TEXTURE_2D, textures.right);
+            gl.uniform1i(this.shader.rightTexture, 2);
             gl.activeTexture(gl.TEXTURE3);
 
-            gl.bindTexture(gl.TEXTURE_2D, textures.front);
-            gl.uniform1i(this.shader.bottomTexture, 4);
+            gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
+            gl.uniform1i(this.shader.bottomTexture, 3);
             gl.activeTexture(gl.TEXTURE4);
 
-            gl.bindTexture(gl.TEXTURE_2D, textures.bottom);
-            gl.uniform1i(this.shader.topTexture, 5);
+            gl.bindTexture(gl.TEXTURE_2D, textures.top);
+            gl.uniform1i(this.shader.topTexture, 4);
             gl.activeTexture(gl.TEXTURE5);
 
 
