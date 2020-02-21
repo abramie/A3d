@@ -35,6 +35,12 @@ float intersection(vec3 normalFace, vec3 rayon, vec3 normal)
     return t;
 }
 
+mat2 rotate2d(float angle){
+    angle = angle * (pi/180.0);
+    return mat2(cos(angle), -sin(angle),
+                sin(angle), cos(angle));
+}
+
 
 //On utilise une texture en fonction de l'index de la texture.
 void main(void)
@@ -49,26 +55,6 @@ void main(void)
    
     vec3 MAntiRotate = vec3 (antiRotatMatrix * vec4 (M, 1.0));
 
-    /*M = MAntiRotate;
-    if(M.x < 0.0){
-        gl_FragColor = vec4(0.0,0.0,-M.x,1.0);
-    }else{
-        gl_FragColor = vec4(M.x,0.0,0.0,1.0);
-    }*/
-
-    /* if(M.y < 0.0){
-        gl_FragColor = vec4(0.0,0.0,-M.y,1.0);
-    }else{
-        gl_FragColor = vec4(M.y,0.0,0.0,1.0);
-    }*/
-
-    /*if(M.z < 0.0){
-        gl_FragColor = vec4(0.0,0.0,-M.z,1.0);
-    }else{
-        gl_FragColor = vec4(M.z,0.0,0.0,1.0);
-    }*/
-        
-    
     gl_FragColor = vec4(1.0,0.0,0.0,1.0);
     
     float mini = -1.0;
@@ -111,26 +97,30 @@ void main(void)
     }
 
 
-    vec3 inter = (position + t * MAntiRotate)/(sizeSkybox*2.0) +vec3( 0.5,0.5,0.5);
+    vec3 inter = (position + t * MAntiRotate)/(sizeSkybox*2.0) + vec3( 0.5,0.5,0.5);
     vec2 textCoord;
     
 //La couleur afficher depend de l'angle d'où on regarde au lieu de la texture
 //ça affiche la couleur du front quand on regarde de face :/
     if(mini == 0.0){
         textCoord = vec2( inter.x , inter.y);
+        textCoord = textCoord * rotate2d(180.0);
         gl_FragColor = texture2D(uFront, textCoord);
         
         //gl_FragColor = vec4(0.7,0.1,0.1,1.0);
     } else if (mini == 1.0){
         textCoord = vec2( inter.x , inter.y);
+        textCoord = textCoord * rotate2d(180.0);
         gl_FragColor = texture2D(uBack, textCoord);
         //gl_FragColor = vec4(0.0706, 0.4784, 0.0706, 1.0);
     } else if (mini == 2.0 ){
         textCoord = vec2( inter.y , inter.z);
+        textCoord = textCoord * rotate2d(270.0);
        gl_FragColor = texture2D(uLeft, textCoord);
        //gl_FragColor = vec4(0.0,0.0,0.8,1.0);
     } else if (mini == 3.0) {
         textCoord = vec2( inter.y , inter.z);
+        textCoord = textCoord * rotate2d(270.0);
         gl_FragColor = texture2D(uRight, textCoord);
        // gl_FragColor = vec4(0.3255, 0.0196, 0.3608, 1.0);
     } else if (mini == 4.0){

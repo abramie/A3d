@@ -25,10 +25,10 @@ class Plane3D {
         //Pour le top il faut retourner la texture pour qu'elle soit bien alignée.
         if(pos == "top"){
             this.texcoords = [
-                0.001, 0.999,
                 0.001, 0.001,
                 0.999, 0.001,
-                0.999, 0.999
+                0.999, 0.999,
+                0.001, 0.999
             ];
         } else if (pos == "front"){
             this.texcoords = [
@@ -46,10 +46,11 @@ class Plane3D {
             ];
         } else if (pos == "bottom"){
             this.texcoords = [
+                0.001, 0.999,
                 0.001, 0.001,
                 0.999, 0.001,
-                0.999, 0.999,
-                0.001, 0.999
+                0.999, 0.999
+
             ];
         } else if (pos == "left"){
             this.texcoords = [
