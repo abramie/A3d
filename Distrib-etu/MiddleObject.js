@@ -41,7 +41,7 @@ class MiddleObject {
 
     /*
         Initialisation des shader obj pour pouvoir dessiner l'obj.
-     */
+    */
     setShadersParams()
     {
         gl.useProgram(this.shader);
@@ -59,6 +59,7 @@ class MiddleObject {
         this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
         
 
+        //Envoie des parametres en fonction du shader
         switch(shader_actif){
             case "miroir":
                 this.shader.frontTexture = gl.getUniformLocation(this.shader, "uFront");
