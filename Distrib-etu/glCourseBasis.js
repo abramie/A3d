@@ -338,7 +338,7 @@ function setMatrixUniforms(Obj3D) {
 
     //Matrix d'anti rotation pour retourner dans le bon referentiel
     mat4.identity(antiRotationMatrix);
-    antiRotationMatrix = mat4.inverse(rotationMatrix, antiRotationMatrix);
+    mat4.transpose(rotationMatrix, antiRotationMatrix);
 
     gl.uniformMatrix4fv(Obj3D.shader.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(Obj3D.shader.tMatrixUniform, false, translateMatrix);
