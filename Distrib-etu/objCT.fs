@@ -100,7 +100,7 @@ void main(void)
 //ça affiche la couleur du front quand on regarde de face :/
     if(mini == 0.0){
         textCoord = vec2( inter.x , inter.y);
-        textCoord = textCoord * rotate2d(180.0);
+        //textCoord = textCoord * rotate2d(180.0);
         gl_FragColor = texture2D(uFront, textCoord);
     } else if (mini == 1.0){
         textCoord = vec2( inter.x , inter.y);
@@ -115,10 +115,10 @@ void main(void)
         textCoord = textCoord * rotate2d(270.0);
         gl_FragColor = texture2D(uRight, textCoord);
     } else if (mini == 4.0){
-        textCoord = vec2( inter.x , inter.y);
+        textCoord = vec2( inter.x , inter.z);
         gl_FragColor = texture2D(uBottom, textCoord);
     } else if (mini == 5.0){
-        textCoord = vec2( inter.x , inter.y);
+        textCoord = vec2( inter.x , inter.z);
         gl_FragColor = texture2D(uTop, textCoord);
     }else{
         gl_FragColor = vec4(1.0,1.0,1.0,1.0);
