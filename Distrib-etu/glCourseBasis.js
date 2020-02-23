@@ -23,7 +23,6 @@ var value_ks = 0.5;
 var value_kd = 0.8;
 var value_n = 20;
 var value_couleur_materiau;
-var value_couleur_speculaire;
 ////////
 
 
@@ -105,8 +104,7 @@ function initialisation_IHM(){
     document.getElementById(shader_actif).checked = true;
     
     
-    //Recuperation des valeurs des ranges pour kd et ks, met � jour la variable
-    //global correspondante
+    //Recuperation des valeurs des ranges pour kd et ks, met a jour la variable globale correspondante
     try{
       var balise_kd = document.getElementById('kd');
       var balise_value_kd = document.getElementById('value_kd');
@@ -198,7 +196,7 @@ function initialisation_IHM(){
             skybox = new SkyBox(sizeSkyBox,  selectedText);
     }
 
-     //Selecteur de texture
+     //Selecteur de l'objet
      mySelectOBJ = document.getElementById('objet-select');
     
      mySelectOBJ.onchange = function (e) {
@@ -336,7 +334,7 @@ function setMatrixUniforms(Obj3D) {
     mat4.identity(rotationMatrix);
     mat4.multiply(rotationMatrix, objMatrix);
 
-    //Matrix d'anti rotation pour retourner dans le bon referentiel
+    //Matrice d'anti-rotation pour retourner dans le bon referentiel
     mat4.identity(antiRotationMatrix);
     mat4.transpose(rotationMatrix, antiRotationMatrix);
 

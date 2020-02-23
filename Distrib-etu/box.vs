@@ -13,7 +13,6 @@ varying float texIndex;
 
 void main(void) {
     texCoords = aTexCoords;
-    //On transmet l'index de texture du sommet à tous ses fragments ) s
     texIndex = aTexIndex;
     gl_Position = uPMatrix * transMatrix*rotatMatrix * vec4(aVertexPosition, 1.0);
     

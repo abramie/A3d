@@ -1,9 +1,21 @@
 // =====================================================
 // PLAN 3D, Support geometrique
 // =====================================================
+
+/*
+    Sert uniquement à garder trois coordonnees pour definir des points
+ */
+class Point {
+    constructor(x,y,z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
 class Plane3D {
 
-    constructor(p1,p2,p3,p4,filename_texture, pos="down"){
+    constructor(p1, p2, p3, p4, pos){
 
         //Deux triangles pour former une face (avec 4 points)
         this.vertices = [
@@ -15,11 +27,8 @@ class Plane3D {
 
         //Nom du shader
         this.fname='plane';
-        this.loaded=-1;
         this.shader=null;
-        this.filename_texture = filename_texture;
 
-        //Ici remplacer les coord de texture par le morceau de la texture
         this.texcoords = [];
 
         //Pour le top il faut retourner la texture pour qu'elle soit bien alignée.

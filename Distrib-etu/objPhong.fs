@@ -19,7 +19,7 @@ vec3 srcPower =  vec3(1,1,1);
 void main(void)
 {
   vec3 Normal3DN = normalize(normal);
-  vec3 Vi = normalize(srcPos - position); //Vecteur incidant.
+  vec3 Vi = normalize(srcPos - position);
   vec3 Vo = normalize(obsPos - position);
 
   vec3 M = reflect(-Vi,Normal3DN);

@@ -6,11 +6,10 @@
 // Une boite 3D, Support geometrique
 // =====================================================
 
-var test = 0;
 var shader = null;
 class SkyBox{
 
-    /*
+    /**
         Initialise la boite
         @param size : la taille du cube (de -size a� +size )
         @param filename_texture : Le nom de l'image de texture (inclure le chemin, mais sans l'extension )
@@ -28,12 +27,12 @@ class SkyBox{
         this.H = new Point(-0.5*size,  -0.5*size,-0.5*size);
 
         //Creee les 6 faces
-        this.Front = new Plane3D(this.G,this.C,this.D,this.H,filename_texture,"front");
-        this.Back = new Plane3D(this.F,this.E,this.A,this.B,filename_texture,"back");
-        this.Left = new Plane3D(this.A,this.E,this.H,this.D,filename_texture,"left");
-        this.Right = new Plane3D(this.B,this.C,this.G,this.F,filename_texture,"right");
-        this.Bottom = new Plane3D(this.E,this.F,this.G,this.H,filename_texture,"bottom");
-        this.Top = new Plane3D(this.A,this.D,this.C,this.B,filename_texture,"top");
+        this.Front = new Plane3D(this.G, this.C, this.D, this.H, "front");
+        this.Back = new Plane3D(this.F, this.E, this.A, this.B, "back");
+        this.Left = new Plane3D(this.A, this.E, this.H, this.D, "left");
+        this.Right = new Plane3D(this.B, this.C, this.G, this.F, "right");
+        this.Bottom = new Plane3D(this.E, this.F, this.G, this.H, "bottom");
+        this.Top = new Plane3D(this.A, this.D, this.C, this.B, "top");
 
         this.fname='box';
         this.loaded=-1;
@@ -53,7 +52,7 @@ class SkyBox{
         textures.top = this.initTexture(this,filename_texture + "_up.png", "up");
     }
 
-    /*
+    /**
         Initialise les faces du cube
     */
     initAll(){
@@ -120,7 +119,7 @@ class SkyBox{
 
     }
 
-    /*
+    /**
         Initialisation des textures (Chargement d'une image)
      */
     initTexture(Obj3D, filename, face)
@@ -139,40 +138,12 @@ class SkyBox{
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 
-            // switch (face){
-            //     case "ft" :
-            //         gl.uniform1i(shader.frontTexture, 0);
-            //         gl.activeTexture(gl.TEXTURE0);
-            //         break;
-            //     case "bk" :
-            //         gl.uniform1i(shader.backTexture, 1);
-            //         gl.activeTexture(gl.TEXTURE1);
-            //         break;
-            //     case "lf" :
-            //         gl.uniform1i(shader.leftTexture, 2);
-            //         gl.activeTexture(gl.TEXTURE2);
-            //         break;
-            //     case "rt" :
-            //         gl.uniform1i(shader.rightTexture, 3);
-            //         gl.activeTexture(gl.TEXTURE3);
-            //         break;
-            //     case "dn" :
-            //         gl.uniform1i(shader.bottomTexture, 4);
-            //         gl.activeTexture(gl.TEXTURE4);
-            //         break;
-            //     case "up" :
-            //         gl.uniform1i(shader.topTexture, 5);
-            //         gl.activeTexture(gl.TEXTURE5);
-            //         break;
-            //     default : break;
-            // }
-
         }
         return texture;
 
     }
 
-    /*
+    /**
         Initialisation des shader box pour pourvoir dessiner la skybox
     */
     setShadersParams()
@@ -193,8 +164,6 @@ class SkyBox{
         this.shader.texIndexAttrib = gl.getAttribLocation(this.shader, "aTexIndex");
         gl.enableVertexAttribArray(this.shader.texIndexAttrib);
 
-
-        //Si on change l'ordre de ces bouts de code, les faces qui se deplacent.
         this.shader.frontTexture = gl.getUniformLocation(this.shader, "uFront");
 
         this.shader.backTexture = gl.getUniformLocation(this.shader, "uBack");
@@ -212,7 +181,7 @@ class SkyBox{
 
     }
 
-    /*
+    /**
         Dessine les faces
     */
     draw(){
@@ -229,11 +198,6 @@ class SkyBox{
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.texindexBuffer);
             gl.vertexAttribPointer(this.shader.texIndexAttrib, this.texindexBuffer.itemSize, gl.SHORT, false, 0, 0);
-
-            // if(test == 0){
-            //     console.log(this.shader.frontTexture)
-            //     test++;
-            // }
 
             gl.bindTexture(gl.TEXTURE_2D, textures.front);
             gl.uniform1i(this.shader.frontTexture, 5);

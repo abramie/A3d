@@ -16,7 +16,6 @@ varying vec3 position;
 
 void main(void) {
     antiRotatMatrix = uantirotatMatrix;
-    //On transmet l'index de texture du sommet à tous ses fragments ) s
     position = vec3( transMatrix * rotatMatrix   * vec4(aVertexPosition, 1.0));
     pointInSkybox = aVertexPosition;
     normal = vec3( rotatMatrix * vec4(aVertexNormal, 1.0));

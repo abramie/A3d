@@ -49,12 +49,11 @@ void main(void)
     vec3 Vi = normalize(srcPos - position); //Vecteur incident.
     vec3 Vo = normalize(obsPos - position);
 
-    vec3 M = reflect(Vo,Normal3DN); //ça marche à peut pres,
-    //vec3 M = -reflect(-Vo,Normal3DN);
+    vec3 M = reflect(Vo,Normal3DN);
     vec3 MAntiRotate = vec3 (antiRotatMatrix * vec4 (M, 1.0));
 
     float mini = -1.0;
-    float t = 1.0 / 0.0;
+    float t = 1.0 / 0.0; //OpenGL défini une division par zéro comme l'infini
 
     float tprime = intersection(Front,MAntiRotate, Normal3DN);
     if(tprime < t && tprime > 0.0){
@@ -96,13 +95,10 @@ void main(void)
     vec3 inter = (position + t * MAntiRotate)/(sizeSkybox*2.0) + vec3( 0.5,0.5,0.5);
     vec2 textCoord;
     
-//La couleur afficher depend de l'angle d'où on regarde au lieu de la texture
-//ça affiche la couleur du front quand on regarde de face :/
     if(mini == 0.0){
         textCoord = vec2( inter.x , inter.y);
         textCoord = textCoord * rotate2d(180.0);
         gl_FragColor = texture2D(uFront, textCoord);
-        //gl_FragColor = vec4(0.7,0.1,0.1,1.0);
     } else if (mini == 1.0){
         textCoord = vec2( -inter.x , inter.y);
         textCoord = textCoord * rotate2d(180.0);

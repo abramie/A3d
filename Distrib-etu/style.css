@@ -1,19 +1,39 @@
+div, label, select{
+  padding: 5px;
+  font-family: Comic Sans MS;
+  border-radius: 5px;
+}
+
+select {
+  height: min-height;
+}
+
 div#bloc1 {
   float: left;
   background: #789;
   height: 100%; 
-  width: 80%;
+  width: 70%;
+  padding: 0px;
 }
 
 canvas {
   height: 100%; 
   width: 100%;
+  margin: 5px;
 }
+
 div#bloc2 {
-  
   background: #abc;
+  padding: 10px;
+  margin-left: calc(70% + 15px);
+  border-width: 10px;
+  box-shadow: 5px 5px grey inset;
 }
 
 div#phong_param {
-  background: rgb(99, 228, 131)
+  background: #abc;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: calc(70% + 15px);
+  box-shadow: 5px 5px grey inset;
 }

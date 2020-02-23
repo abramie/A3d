@@ -2,7 +2,7 @@
  @authors : Marine Droit & Jérémy Rousseau
 */
 
-/*
+/**
  * Objet charge depuis un OBJ
  */
 class MiddleObject {
@@ -14,7 +14,7 @@ class MiddleObject {
         this.shader = null;
     }
 
-    /*
+    /**
         Initialisation de l'obj : de ses coordonnees, indices normales et coordonnees de texture.
      */
     initAll(){
@@ -39,7 +39,7 @@ class MiddleObject {
 
     }
 
-    /*
+    /**
         Initialisation des shader obj pour pouvoir dessiner l'obj.
     */
     setShadersParams()
@@ -53,7 +53,6 @@ class MiddleObject {
         this.shader.nAttrib = gl.getAttribLocation(this.shader, "aVertexNormal");
         gl.enableVertexAttribArray(this.shader.nAttrib);
 
-        //OBJ.initMeshBuffers(gl,this.mesh);
         this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
         this.shader.tMatrixUniform = gl.getUniformLocation(this.shader, "transMatrix");
         this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "rotatMatrix");
@@ -81,7 +80,6 @@ class MiddleObject {
 
                 break;
             case "phong":
-                //Transfert des ks et kd
                 this.shader.gl_ks = gl.getUniformLocation(this.shader, "uKS");
 
 
@@ -94,7 +92,7 @@ class MiddleObject {
 
     }
 
-    /*
+    /**
         Dessine l'obj
      */
     draw(){

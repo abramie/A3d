@@ -4,7 +4,6 @@
 	<title>WebGL - Canvas test</title>
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
   <link rel="stylesheet" type="text/css" href="style.css" media="all"/>
-	<script type="text/javascript" src="geometry.js"></script>
     <script type="text/javascript" src="SkyBox.js"></script>
     <script type="text/javascript" src="Plane3D.js"></script>
     <script type="text/javascript" src="MiddleObject.js"></script>
@@ -22,20 +21,21 @@
   </div>
 	<br><br>
   <div id="bloc2">
-
-    <label for"texture">Selection d'une texture</label>
+    <h3>Paramètres généraux</h3>
+    <label for="texture-select">Selection d'une texture</label>
     <select name="texture" id="texture-select">
-        <option value="test/test">test</option>
-        <option value="darkskies/darkskies">darkskies</option>
-        <option value="ely_nevada/nevada">nevada</option>
-        <option value="stonegods/sgod">stonegods</option>
-        <option value="mp_sincity/sincity">sincity</option>
+        <option value="stonegods/sgod">Stonegods</option>
+        <option value="darkskies/darkskies">Darkskies</option>
+        <option value="mp_sincity/sincity">Sincity</option>
+      <option value="basilique/basilique">Basilique</option>
+      <option value="arches/arches">Arches</option>
     </select>
   </br>
-    <label for"objet">Selection d'un objet</label>
+    <label for="objet-select">Selection d'un objet</label>
     <select name="objet" id="objet-select">
       <option value="teapot.obj">teapot</option>
       <option value="spider.obj">spider</option>
+      <option value="sword.obj">Sword</option>
     </select>
 
     <div>
