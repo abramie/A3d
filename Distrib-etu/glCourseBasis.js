@@ -93,7 +93,9 @@ function resize(canvas) {
 function initialisation_IHM(){
   //Identification du shader actif 
     var shad_radio = document.getElementsByName("choix_shader");
+    
     for (var i = 0; i < shad_radio.length; i++) {
+      if(shad_radio[i].checked) shader_actif =shad_radio[i].value;
       shad_radio[i].addEventListener('change', function() {
           shader_actif = this.value;
           console.log(shader_actif)
@@ -198,7 +200,7 @@ function initialisation_IHM(){
 
      //Selecteur de l'objet
      mySelectOBJ = document.getElementById('objet-select');
-    
+     name_object = mySelectOBJ[mySelectOBJ.selectedIndex].value;
      mySelectOBJ.onchange = function (e) {
          var selectedOption = mySelectOBJ[mySelectOBJ.selectedIndex];
          var selectedText = selectedOption.value;
