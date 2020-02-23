@@ -26,7 +26,7 @@ var value_couleur_materiau;
 ////////
 
 
-var sizeSkyBox = 2000;
+var sizeSkyBox = 2000.00;
 var textures;
 var shader_actif = "miroir";
 var name_object = "teapot.obj"
